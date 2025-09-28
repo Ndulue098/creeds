@@ -3,16 +3,14 @@ import "./globals.css";
 import { AuthProviderContext } from "@/context/auth";
 import { Building2Icon } from "lucide-react";
 import Nav from "@/components/Nav";
+import { Poppins } from "next/font/google";
+// import { Toaster } from "@/components/ui/sonner";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const poppins=Poppins({
+  subsets:["latin"],
+  weight:["100","200","300","400","500","600","700","800","900"]
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   title: "Create Next App",
@@ -23,7 +21,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${poppins.className} antialiased`}
       >
       <AuthProviderContext>
         <Nav/>

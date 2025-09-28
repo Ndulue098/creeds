@@ -15,14 +15,7 @@ function AuthProviderContext({children}){
             setCurrrentUser(user??null)
 
         if(user){
-
-            // const tokenDetail=await user.getIdTokenResult()
-            // const token=tokenDetail.token
-            // const claims=tokenDetail.claims
-            // const refreshToken=user.refreshToken
-
             const tokenResult=await user.getIdTokenResult(true);
-            
             // auth token 
             const token=tokenResult.token
             const claims=tokenResult.claims

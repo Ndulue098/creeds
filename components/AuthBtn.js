@@ -10,10 +10,6 @@ import { useRouter } from "next/navigation"
 export default function AuthBtn() {
        const authContext=useAuthContext()
         const router=useRouter()
-       console.log(authContext?.currentUser);
-       console.log(authContext?.customClaims)
-       console.log(authContext?.customClaims?.admin);
-       
         
       async function logout(){
         await authContext.logOut()

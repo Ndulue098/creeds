@@ -19,7 +19,7 @@ export default async function middleware(request) {
     }
   }
 
-  // login user can access the page
+  // logout user can access the page
   if (!jwtToken && request.nextUrl.pathname.startsWith("/login")) {
     return NextResponse.next();
   }
@@ -29,6 +29,9 @@ export default async function middleware(request) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
+  if(!decodedToken && request.nextUrl.pathname.startsWith("/admin-dashboard")){
+    return NextResponse.redirect(new URL("/",request.url))
+  }
 //   if (decodedToken && request.nextUrl.pathname.startsWith("/login")) {
 //     return NextResponse.redirect(new URL("/", request.url));
 //   }
@@ -37,5 +40,8 @@ export default async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/login"],
+  matcher: ["/login",
+            "/admin-dashboard",
+            "/admin-dashboard/:path*",
+  ],
 };
