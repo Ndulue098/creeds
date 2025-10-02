@@ -3,11 +3,11 @@ import { Editor } from "@tinymce/tinymce-react";
 import { useEffect, useState } from "react";
 
 export default function PostTextEditor({ post, onSave }) {
-  const [content, setContent] = useState(post?.html || "");
+  const [content, setContent] = useState(post || "");
 
   useEffect(() => {
     if (post) {
-      setContent(post.html); // update state when post changes (important for edit)
+      setContent(post); // update state when post changes (important for edit)
     }
   }, [post]);
 

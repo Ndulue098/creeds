@@ -3,13 +3,23 @@ import PostCard from "./PostCard";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import PostBtn from "./PostBtn";
+import SortFilter from "./SortFilter";
 
-export default async function page() {
+export default async function page({searchParams}) {
+  const searchParamsVal= await searchParams
+  const {page=1}=searchParamsVal
+  console.log(page);
+   
   return (
     <div className="max-w-5xl mx-auto space-y-4 p-4">
       <h2 className="text-2xl font-bold mb-4">Admin dashboard</h2>
-      <PostBtn />
-      <PostCard />
+      <div className="flex justify-between items-end">
+        <PostBtn/>
+        <SortFilter/>
+      </div>
+      
+      <PostCard page={page}/>
+      
     </div>
   );
 }

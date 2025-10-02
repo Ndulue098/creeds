@@ -1,15 +1,26 @@
 import { firestore } from "@/firebase/Server"
 import "server-only"
+import { getTotalPage } from "./getTotalPage";
 
-export async function getPosts() {
+export async function getPosts(option){
+  const {pagination}=option
+  const {page=1,pageSize=5}=pagination
+
+  console.log("ps",pageSize);
+  
+
   const snapShot = await firestore
     .collection("posts")
     .orderBy("createdAt", "desc")
-    .get();
+    // .limit(pageSize)
+    // .get();
 
-  const posts = snapShot.docs.map((doc) => {
+  
+  const totalPage= await getTotalPage(snapShot,pageSize)
+  const postSnapShot=await snapShot.limit(pageSize).offset((page-1)*pageSize).get()
+
+  const posts = postSnapShot.docs.map((doc) => {
     const data = doc.data(); // ✅ define data first
-
     return {
       id: doc.id,
       ...data,
@@ -22,7 +33,7 @@ export async function getPosts() {
     };
   });
 
-  return posts;
+  return {posts,totalPage};
 }
 
 export async function getPost(id) {

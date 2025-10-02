@@ -3,7 +3,7 @@ import { Badge } from "./ui/badge";
 const badgeLabel={
     design:"Design",
     construction:"Construction",
-    campus:"Campus",
+    campuslife:"campus-life",
     career:"career"
 }
 

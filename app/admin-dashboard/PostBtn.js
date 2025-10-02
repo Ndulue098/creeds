@@ -12,7 +12,7 @@ export default function PostBtn() {
 const categories = [
   { label: "Design & Architecture", value: "design", icon: PenTool },
   { label: "Construction & Materials", value: "construction", icon: Hammer },
-  { label: "Campus Life & Projects", value: "campus-life", icon: Building2 },
+  { label: "Campus Life & Projects", value: "campuslife", icon: Building2 },
   { label: "Tips & Career Advice", value: "career", icon: GraduationCap },
 ];
 
@@ -24,7 +24,8 @@ const categories = [
     className="h-full rounded-md"
     onClick={() => setShowCategories((prev) => !prev)}
   >
-    Add Post
+    {/* Add Post */}
+    {showCategories ? " Choose Category:":"Add Post"}
   </Button>
 
   {/* Animated Slide-Out Categories */}

@@ -24,7 +24,7 @@ export default async function middleware(request) {
     return NextResponse.next();
   }
 
-  // login user can't access the page
+  // login user can't access the login page
   if (jwtToken && request.nextUrl.pathname.startsWith("/login")) {
     return NextResponse.redirect(new URL("/", request.url));
   }

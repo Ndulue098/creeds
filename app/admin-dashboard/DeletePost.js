@@ -27,8 +27,8 @@ export default function DeletePost({postId}){
 
     return <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="icon">
-          <Trash2Icon/>
+        <Button variant="outline" size="medium" className="p-1">
+          <Trash2Icon size={16}/>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
