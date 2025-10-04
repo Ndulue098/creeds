@@ -17,7 +17,7 @@ export default function SortFilter() {
     const pathName=usePathname()
 
     const currentSort = searchParams.get("sort") || "asc"
-    const currentFilter = searchParams.get("filter") || ""
+    const currentFilter = searchParams.get("status") || ""
 
     const setParam=useCallback((key,value)=>{
         const params=new URLSearchParams(searchParams.toString())
@@ -28,6 +28,7 @@ export default function SortFilter() {
         //     params.delete(key)
         // }
         params.set(key,value)
+        params.set("page","1")
         router.replace(`${pathName}?${params}`)
         // router.push(`?${params.toString}`)
     },[router,searchParams,pathName])
@@ -68,13 +69,14 @@ export default function SortFilter() {
       Filter
     </p>
         
-        <Select value={currentFilter} onValueChange={(val) => setParam("filter", val)}>
+        <Select value={currentFilter} onValueChange={(val) => setParam("status", val)}>
         <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Category" />
         </SelectTrigger>
         <SelectContent>
+            <SelectItem value="all">All</SelectItem>
             <SelectItem value="career">career</SelectItem>
-            <SelectItem value="campus-life">campus-life</SelectItem>
+            <SelectItem value="campuslife">campus-life</SelectItem>
             <SelectItem value="design">design</SelectItem>
             <SelectItem value="construction">construction</SelectItem>
         </SelectContent>

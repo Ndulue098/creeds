@@ -25,11 +25,17 @@ export function formatDate(isoString) {
   });
 }
 
-export default async function PostCard({page}) {
+export default async function PostCard({page,sort,status}) {
   // console.log("post--id",post.id);
   const {posts,totalPage} = await getPosts({
    pagination:{page,
     pageSize:5
+  },
+  filter:{
+    status
+  },
+  sort:{
+    sortby:sort
   }
   });
   

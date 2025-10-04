@@ -7,8 +7,11 @@ import SortFilter from "./SortFilter";
 
 export default async function page({searchParams}) {
   const searchParamsVal= await searchParams
-  const {page=1}=searchParamsVal
+  const {page=1,sort,status}=searchParamsVal
+  // {sort: 'asc', status: 'career'}
   console.log(page);
+  console.log("searchparams",searchParamsVal);
+  
    
   return (
     <div className="max-w-5xl mx-auto space-y-4 p-4">
@@ -18,7 +21,7 @@ export default async function page({searchParams}) {
         <SortFilter/>
       </div>
       
-      <PostCard page={page}/>
+      <PostCard page={page} sort={sort} status={status}/>
       
     </div>
   );

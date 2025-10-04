@@ -6,13 +6,22 @@ import {getAuth} from "firebase/auth";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+// const firebaseConfig = {
+//     apiKey: "AIzaSyBQpaVprBN9GgYlug7Nt8jBgKMDoiX5jjk",
+//     authDomain: "fesablog-750f6.firebaseapp.com",
+//     projectId: "fesablog-750f6",
+//     storageBucket: "fesablog-750f6.firebasestorage.app",
+//     messagingSenderId: "708523911386",
+//     appId: "1:708523911386:web:5aa02d2856c77d616a1de3"
+// };
+
 const firebaseConfig = {
-    apiKey: "AIzaSyBQpaVprBN9GgYlug7Nt8jBgKMDoiX5jjk",
-    authDomain: "fesablog-750f6.firebaseapp.com",
-    projectId: "fesablog-750f6",
-    storageBucket: "fesablog-750f6.firebasestorage.app",
-    messagingSenderId: "708523911386",
-    appId: "1:708523911386:web:5aa02d2856c77d616a1de3"
+  apiKey: "AIzaSyDnuvgOFPv5FbwKt0IHp1HlOFSlHmXdkrk",
+  authDomain: "fesablog-1e56b.firebaseapp.com",
+  projectId: "fesablog-1e56b",
+  storageBucket: "fesablog-1e56b.firebasestorage.app",
+  messagingSenderId: "221571399005",
+  appId: "1:221571399005:web:1de5474f0084c971127cb4"
 };
 
 // Initialize Firebase
@@ -32,3 +41,9 @@ if (!currentApp.length){
 }
 
 export { auth, storage };
+
+
+
+// 
+
+// Import the functions you need from the SDKs you need

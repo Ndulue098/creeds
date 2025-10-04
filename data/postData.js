@@ -3,21 +3,28 @@ import "server-only"
 import { getTotalPage } from "./getTotalPage";
 
 export async function getPosts(option){
-  const {pagination}=option
+  const {pagination,filter}=option
   const {page=1,pageSize=5}=pagination
+  const {status}=filter
+  console.log("ps",status); 
 
-  console.log("ps",pageSize);
-  
-
-  const snapShot = await firestore
+  let snapShot = firestore
     .collection("posts")
     .orderBy("createdAt", "desc")
     // .limit(pageSize)
     // .get();
 
   
+  // if(status && status!=="all"){
+  //   // const statusArr
+  //   snapShot=snapShot.where("category", "==", status)
+  // }
+
+  
   const totalPage= await getTotalPage(snapShot,pageSize)
   const postSnapShot=await snapShot.limit(pageSize).offset((page-1)*pageSize).get()
+
+
 
   const posts = postSnapShot.docs.map((doc) => {
     const data = doc.data(); // ✅ define data first
@@ -33,6 +40,7 @@ export async function getPosts(option){
     };
   });
 
+  // return {posts,totalPage};
   return {posts,totalPage};
 }
 
