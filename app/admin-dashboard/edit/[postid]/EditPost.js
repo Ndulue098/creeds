@@ -4,40 +4,73 @@ import { useAuthContext } from "@/context/auth"
 import { updatePost } from "./action";
 import { useRouter } from "next/navigation";
 import { extractPostData } from "@/utils/extractPost";
+import PostForm from "@/components/PostForm";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { saveImage } from "../../new/action";
+import { storage } from "@/firebase/Client";
 
 export default function EditPost({post}) {
   const route=useRouter()
-    /* 
-author: "Ndulue Christian"
-createdAt: "2025-09-26T23:51:42.269Z"
-html: "<h1>Hello this is a test of time</h1>\n<p>and times will be tested</p>"
-id: "njaLd8di0EmVnVuxh2ji"
-    */
-
-  // console.log(post?.htmlString);
   
+    console.log(post);
 
     const authContext=useAuthContext()
+
 
     async function edit(data){
         const token=await authContext.currentUser.getIdToken()
         if(!token)return
-       const { title, article} = extractPostData(data)
+      //  const { title, article} = extractPostData(data)
+       const {image,article}=data
+      const { title, article:artic} = extractPostData(article)
         
+
         const postData={
           // ...post,
-          htmlString:data,
-          article,
+          htmlString:article,
+          article:artic,
           title,
         }
-        
-      const response= await updatePost({id:post.id,...postData},token)
+
+
+        const response= await updatePost({id:post.id,...postData},token)
+
+
+        console.log("edit--",image);
+        if(image && typeof image=="object" &&image.file){
+          console.log("image is obj");
+
+             const path=`posts/${post.id}/${Date.now()}-${image.file.name}`
+              const storageRef=ref(storage,path);
+              // paths.push(path);
+              const uploadTask=uploadBytesResumable(storageRef,image.file)
+              
+              await new Promise((resolve,reject)=>{
+                uploadTask.on(
+                  "state_changed",
+                  null,
+                  reject,
+                  ()=>resolve()
+                )
+              })
+              
+              const downloadURL=await getDownloadURL(storageRef)
+              console.log(downloadURL);
+              await saveImage({postId:post.id,image:downloadURL},token)
+          
+        }
 
          route.push("/admin-dashboard")
     }
 
+    
+    const defaultVal={
+      article:post?.htmlString,
+      image:post.image
+    }
+
     return <div>
-            <PostTextEditor post={post?.htmlString} onSave={edit} />
+            <PostForm defaultVal={defaultVal} onSave={edit}/>
         </div>
 }
 

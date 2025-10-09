@@ -5,9 +5,16 @@ const nextConfig = {
             {   
                 protocol:"https",
                 hostname:"lh3.googleusercontent.com"
-            }
+            },
+            {   
+                protocol:"https",
+                hostname:"firebasestorage.googleapis.com"
+            },
         ]
-    }
+    },
+  serverActions: {
+    bodySizeLimit: '10mb', // or '20mb' if needed
+  },
 };
 
 export default nextConfig;

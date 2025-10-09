@@ -1,6 +1,6 @@
 "use server"
 
-import { auth, firestore } from "@/firebase/Server"
+import { auth, firestore } from "@/firebase/Server" 
 
 export async function createPost(token,postData){
    const verifiedToken=await auth.verifyIdToken(token);
@@ -19,3 +19,19 @@ export async function createPost(token,postData){
 
     return {success:true, id:docRefPost.id}
 } 
+
+export async function saveImage({postId,image},token){
+    const verifyToken=await auth.verifyIdToken(token)
+    if(!verifyToken){
+        return{
+            error:true,
+            message:"unauthorized user"
+        }
+    }
+
+
+    await firestore.collection("posts").doc(postId).update({
+        image
+    })
+
+}

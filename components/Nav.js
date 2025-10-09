@@ -10,9 +10,12 @@ export default function Nav() {
         FESA
       </Link>
 
-      <ul>
+      <ul className="flex items-center gap-5">
         <li>
-            <AuthBtn/>
+          <Link href="/blog-posts">View Post</Link>
+        </li>
+        <li>
+          <AuthBtn />
         </li>
       </ul>
     </nav>

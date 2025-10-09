@@ -29,8 +29,8 @@ export default async function PostCard({page,sort,status}) {
   // console.log("post--id",post.id);
   const {posts,totalPage} = await getPosts({
    pagination:{page,
-    pageSize:5
-  },
+    pageSize:3
+  }, 
   filter:{
     status
   },
@@ -83,7 +83,7 @@ export default async function PostCard({page,sort,status}) {
                       </Link>
                     </Button>
                     
-                    <DeletePost/>
+                    <DeletePost postId={post.id}/>
                   </TableCell>
                 </TableRow>
               );

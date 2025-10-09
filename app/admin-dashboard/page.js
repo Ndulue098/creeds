@@ -12,10 +12,12 @@ export default async function page({searchParams}) {
   console.log(page);
   console.log("searchparams",searchParamsVal);
   
+  const items=[{label:"admin-dashboard"}]
    
   return (
     <div className="max-w-5xl mx-auto space-y-4 p-4">
       <h2 className="text-2xl font-bold mb-4">Admin dashboard</h2>
+      
       <div className="flex justify-between items-end">
         <PostBtn/>
         <SortFilter/>

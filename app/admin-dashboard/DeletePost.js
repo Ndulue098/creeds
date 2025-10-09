@@ -18,7 +18,6 @@ export default function DeletePost({postId}){
         if(!token) return
         
         await handleDeletePost(postId,token)
-        console.log(token);
         
         // later set to ture
         setIsDeleting(false)

@@ -3,26 +3,18 @@ import "server-only"
 import { getTotalPage } from "./getTotalPage";
 
 export async function getPosts(option){
-  const {pagination,filter}=option
-  const {page=1,pageSize=5}=pagination
-  const {status}=filter
+  const {pagination,filter}=option ||{}
+  const {page=1,pageSize=5}=pagination ||{}
+  const {status}=filter ||{}
   console.log("ps",status); 
 
   let snapShot = firestore
     .collection("posts")
     .orderBy("createdAt", "desc")
-    // .limit(pageSize)
-    // .get();
-
-  
-  // if(status && status!=="all"){
-  //   // const statusArr
-  //   snapShot=snapShot.where("category", "==", status)
-  // }
 
   
   const totalPage= await getTotalPage(snapShot,pageSize)
-  const postSnapShot=await snapShot.limit(pageSize).offset((page-1)*pageSize).get()
+  const postSnapShot=await snapShot?.limit(pageSize).offset((page-1)*pageSize).get()
 
 
 
@@ -63,4 +55,25 @@ export async function getPost(id) {
       ? data.updated.toDate().toISOString()
       : data.updated,
   };
+}
+
+export async function getCommets(postId){
+  const commentsRef = firestore
+    .collection("posts")
+    .doc(postId)
+    .collection("comments") // ✅ comments should be a subcollection
+    .orderBy("createdAt", "desc");
+
+  const commentSnap = await commentsRef.get();
+  
+  return commentSnap.docs.map((doc)=>{
+    const data=doc.data()
+   return {
+    id:doc.id,
+    ...doc.data(),
+    createdAt: data.createdAt?.toDate
+        ? data.createdAt.toDate().toISOString()
+        : data.createdAt,
+  }
+})
 }

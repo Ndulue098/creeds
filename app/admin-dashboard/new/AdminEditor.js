@@ -1,50 +1,73 @@
 "use client";
 
-import { useState } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+import PostForm from "@/components/PostForm";
 import { useAuthContext } from "@/context/auth";
-import { createPost } from "./action";
-import { useRouter, useSearchParams } from "next/navigation";
-import PostTextEditor from "@/components/PostTextEditor";
+import { storage } from "@/firebase/Client";
 import { extractPostData } from "@/utils/extractPost";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { useRouter, useSearchParams } from "next/navigation";
+import { createPost, saveImage } from "./action";
 
 export default function AdminEditor() {
   const route=useRouter()
   const authContext=useAuthContext()
-
+  
   const searchParams=useSearchParams();
   const category=searchParams.get("category") ||"design";
-
-  console.log(category); 
-  
+   
   async function onSave(data) {
+    console.log("data",data);
 
       const token=await authContext.currentUser?.getIdToken()
       if(!token)return
       
-     const { title, article} = extractPostData(data)
       const author=await authContext.currentUser?.displayName
+      const {image,article}=data
+     const { title, article:artic} = extractPostData(article)
+      // const { title, article} = extractPostData(data)
 
       const postData={
         title,
-        article,
+        artic,
         category,
         author,
-        htmlString:data
+        htmlString:article
       }
+      
       console.log("postData",postData);
       
-       const response= await createPost(token,postData)
+      const response= await createPost(token,postData)
 
-     console.log(response);
-       
+      console.log(response);
+      
+      // ! fire store upload
+
+      // const uploadTasks=[];
+      if (image.file){
+        const path=`posts/${response.id}/${Date.now()}-${image.file.name}`
+        const storageRef=ref(storage,path);
+        // paths.push(path);
+        const uploadTask=uploadBytesResumable(storageRef,image.file)
+        
+        await new Promise((resolve,reject)=>{
+          uploadTask.on(
+            "state_changed",
+            null,
+            reject,
+            ()=>resolve()
+          )
+        })
+        
+        const downloadURL=await getDownloadURL(storageRef)
+        console.log(downloadURL);
+        await saveImage({postId:response.id,image:downloadURL},token)
+        
+      }
+
      route.push("/admin-dashboard")
     
   }
 
-  return (
-    <div >
-      <PostTextEditor onSave={onSave}/>
-    </div>
-  );
+
+  return <PostForm onSave={onSave}/>
 }
