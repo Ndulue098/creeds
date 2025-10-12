@@ -45,7 +45,7 @@ export default function Comment({ postId }) {
   }
 
   return (
-    <section className="max-w-4xl mx-auto mt-16 border-t border-border pt-10">
+    <section className="max-w-4xl w-full mx-auto mt-16 border-t border-border pt-10">
       <h2 className="text-2xl font-semibold mb-6">Leave a Comment</h2>
 
       <Form {...form}>
@@ -73,7 +73,7 @@ export default function Comment({ postId }) {
             )}
           />
 
-          <div className="flex items-center justify-between">
+          <div className="flex flex-1 items-center justify-between">
             <div className="flex items-center gap-3">
               {/* <div className="size-8 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-sm font-semibold text-gray-600 dark:text-gray-300">
                 {authContext.currentUser?.displayName?.[0] || "?"}

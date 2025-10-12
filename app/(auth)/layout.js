@@ -1,6 +1,9 @@
 export default function layout({children}) {
-    return <div className="max-w-screen-sm mx-auto p-5 ">
+    return <div className="h-full flex items-center justify-center">
+        <div className="max-w-screen-md w-full ">
             {children}
+        </div>
         </div>
 }
 
+ 

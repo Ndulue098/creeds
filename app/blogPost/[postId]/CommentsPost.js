@@ -5,7 +5,7 @@ export default async function CommentsPost({ postId }) {
   console.log(comments); 
   
   return (
-    <div className="max-w-4xl mx-auto my-8 border-t border-border ">
+    <div className="max-w-4xl w-full mx-auto my-8 border-t border-border ">
       {comments.length>0 && comments.map((c) => (
          <div key={c.id} className="mt-8 space-y-6">
         <div

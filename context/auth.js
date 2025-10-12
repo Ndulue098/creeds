@@ -1,15 +1,16 @@
 "use client"
 import {createContext, useContext, useEffect, useState} from "react";
 import {auth} from "@/firebase/Client";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { removeToken, setToken } from "./action";
+import { useRouter } from "next/navigation";
 
 const AuthContext=createContext(null)
 
 function AuthProviderContext({children}){
     const [currentUser,setCurrrentUser]=useState("");
     const [customClaims,setCustomClaims]=useState(null)
-
+    const router=useRouter()
     useEffect(()=>{
        const unsubscribe= auth.onAuthStateChanged(async (user)=>{
             setCurrrentUser(user??null)
@@ -48,14 +49,19 @@ function AuthProviderContext({children}){
         const provider=new GoogleAuthProvider()
         try{
             await signInWithPopup(auth,provider)
+            router.push("/")
         }catch(err){
             console.log("Google login failed",err);
         }
     }
 
-    // 
+    // login with email
+     async function loginWithEmail(email,password) {
+      await signInWithEmailAndPassword(auth,email,password)
+      router.push("/")
+  }
 
-    return <AuthContext.Provider value={{currentUser,loginwithGoogle,logOut,customClaims}}>
+    return <AuthContext.Provider value={{currentUser,loginwithGoogle,loginWithEmail,logOut,customClaims}}>
         {children}
     </AuthContext.Provider>
 

@@ -4,13 +4,13 @@ import { AuthProviderContext } from "@/context/auth";
 import { Building2Icon } from "lucide-react";
 import Nav from "@/components/Nav";
 import { Poppins } from "next/font/google";
-// import { Toaster } from "@/components/ui/sonner";
+// import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
-const poppins=Poppins({
-  subsets:["latin"],
-  weight:["100","200","300","400","500","600","700","800","900"]
-})
-
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata = {
   title: "Create Next App",
@@ -19,14 +19,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <body
-        className={`${poppins.className} antialiased`}
+        className={`${poppins.className} antialiased min-h-full grid grid-rows-[4rem_1fr]`}
       >
-      <AuthProviderContext>
-        <Nav/>
-        {children}
-      </AuthProviderContext>
+        <AuthProviderContext>
+          <Nav />
+          {children}
+          <Toaster richColors closeButton />
+        </AuthProviderContext>
       </body>
     </html>
   );

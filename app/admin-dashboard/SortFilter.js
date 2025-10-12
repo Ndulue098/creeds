@@ -21,12 +21,6 @@ export default function SortFilter() {
 
     const setParam=useCallback((key,value)=>{
         const params=new URLSearchParams(searchParams.toString())
-        // if(value){
-        //     params.set(key,value)
-        // }
-        // else{
-        //     params.delete(key)
-        // }
         params.set(key,value)
         params.set("page","1")
         router.replace(`${pathName}?${params}`)
@@ -35,7 +29,7 @@ export default function SortFilter() {
 
 
   return (
-    <div className="flex   gap-4 text-sm">
+    <div className="flex ml-auto  gap-4 text-sm">
       <div>
         
         <p className="tracking-widest text-xs uppercase font-medium mb-2 text-gray-500">

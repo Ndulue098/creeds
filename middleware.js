@@ -20,14 +20,30 @@ export default async function middleware(request) {
   }
 
   // logout user can access the page
-  if (!jwtToken && request.nextUrl.pathname.startsWith("/login")) {
+  if (!jwtToken && (
+      request.nextUrl.pathname.startsWith("/login")||
+      request.nextUrl.pathname.startsWith("/register"))) {
     return NextResponse.next();
   }
 
   // login user can't access the login page
-  if (jwtToken && request.nextUrl.pathname.startsWith("/login")) {
+  if (jwtToken && (
+    request.nextUrl.pathname.startsWith("/login") ||
+      request.nextUrl.pathname.startsWith("/register")
+    )) {
     return NextResponse.redirect(new URL("/", request.url));
   }
+
+
+   // checking is token will expire within the next 5min
+    // redirect to this 
+    // were we can take as much time to request another auth token, cause issuring a fetch request on middle ware take 1.5 sec
+    // we will create a new api root responsible for fetching the we can take as long as we need to get the new auth token for the user
+    // 
+    if(decodedToken.exp && (decodedToken.exp-300) * 1000<Date.now()){
+        return NextResponse.redirect(new URL(`/api/refresh-token?redirect=${encodeURIComponent(request.nextUrl.pathname)}`,request.url))
+    } 
+
 
   if(!decodedToken && request.nextUrl.pathname.startsWith("/admin-dashboard")){
     return NextResponse.redirect(new URL("/",request.url))
@@ -41,6 +57,7 @@ export default async function middleware(request) {
 
 export const config = {
   matcher: ["/login",
+            "/register",
             "/admin-dashboard",
             "/admin-dashboard/:path*",
   ],

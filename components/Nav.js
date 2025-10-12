@@ -4,7 +4,7 @@ import AuthBtn from "./AuthBtn";
 
 export default function Nav() {
   return (
-    <nav className="bg-emerald-500 text-white p-5 h-24 flex items-center justify-between">
+    <nav className="bg-emerald-500 text-white p-5  flex items-center justify-between">
       <Link href="/" className="flex gap-3 tracking-widest">
         <Building2Icon />
         FESA

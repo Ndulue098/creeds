@@ -4,13 +4,21 @@ import { getTotalPage } from "./getTotalPage";
 
 export async function getPosts(option){
   const {pagination,filter}=option ||{}
-  const {page=1,pageSize=5}=pagination ||{}
+  const {page,pageSize=5}=pagination ||{}
   const {status}=filter ||{}
   console.log("ps",status); 
 
   let snapShot = firestore
     .collection("posts")
     .orderBy("createdAt", "desc")
+    // .limit(pageSize)
+    // .get();
+
+  
+  if(status && status!=="all"){
+    // const statusArr
+    snapShot=snapShot.where("category", "==", status)
+  }
 
   
   const totalPage= await getTotalPage(snapShot,pageSize)

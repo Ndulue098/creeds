@@ -25,7 +25,8 @@ export function formatDate(isoString) {
   });
 }
 
-export default async function PostCard({page,sort,status}) {
+export default async function PostCard({page,sort,status,searchParamsVal}) {
+  
   // console.log("post--id",post.id);
   const {posts,totalPage} = await getPosts({
    pagination:{page,
@@ -92,17 +93,24 @@ export default async function PostCard({page,sort,status}) {
           <TableFooter>
               <TableRow>
               <TableCell colSpan={5} className="text-center">
-              {Array.from({ length: totalPage }).map((_, i) => (
-                  <Button
-                    disabled={page === i + 1}
+
+              {Array.from({ length: totalPage }).map((_, i) => {
+                const filter=new URLSearchParams()
+                if(searchParamsVal.status){
+                  filter.set("status",searchParamsVal.status)                  
+                }
+                filter.set("page",`${i+1}`)
+                return  <Button
+                    disabled={page===i+1}
                     key={i}
                     asChild={page !== i + 1}
                     variant="outline"
                     className="mx-1 "
                   >
-                    <Link href={`/admin-dashboard?page=${i + 1}`}>{i + 1}</Link>
+                    {/* <Link href={`/admin-dashboard?page=${i + 1}`}>{i + 1}</Link> */}
+                    <Link href={`/admin-dashboard?${filter.toString()}`}>{i + 1}</Link>
                   </Button>
-                ))}
+                })}
               </TableCell>
             </TableRow>
           </TableFooter>

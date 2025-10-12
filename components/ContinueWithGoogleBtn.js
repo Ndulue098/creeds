@@ -9,11 +9,15 @@ export default function ContinueWithGoogleBtn(){
     const route=useRouter()
 
     async function handleLogin(){
-       await authContext?.loginwithGoogle()
-       route.refresh()
+        try{
+            await authContext?.loginwithGoogle()
+        }catch(err){
+
+        }
+    //    route.refresh()
     }
 
-    return <Button onClick={handleLogin} className="w-full cursor-pointer">
+    return <Button onClick={handleLogin} variant="outline" className="w-full cursor-pointer">
             Continue With Google 
         </Button>
 }
