@@ -22,7 +22,7 @@ export default function AuthBtn() {
             <DropdownMenuTrigger>
             
                 <Avatar>
-                    {!!authContext?.currentUser.photoURL&&
+                    {!!authContext?.currentUser?.photoURL&&
                     <Image height={70} width={70} src={authContext.currentUser.photoURL} alt={`${authContext.currentUser.displayName}avatar`}/>
                 }
                     <AvatarFallback className="text-sky-950 bg-white w-full flex items-center justify-center font-semibold">

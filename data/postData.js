@@ -1,30 +1,27 @@
-import { firestore } from "@/firebase/Server"
-import "server-only"
+import { firestore } from "@/firebase/Server";
+import "server-only";
 import { getTotalPage } from "./getTotalPage";
 
-export async function getPosts(option){
-  const {pagination,filter}=option ||{}
-  const {page,pageSize=5}=pagination ||{}
-  const {status}=filter ||{}
-  console.log("ps",status); 
+export async function getPosts(option) {
+  const { pagination, filter } = option || {};
+  const { page, pageSize = 5 } = pagination || {};
+  const { status } = filter || {};
+  console.log("ps", status);
 
-  let snapShot = firestore
-    .collection("posts")
-    .orderBy("createdAt", "desc")
-    // .limit(pageSize)
-    // .get();
+  let snapShot = firestore.collection("posts").orderBy("createdAt", "desc");
+  // .limit(pageSize)
+  // .get();
 
-  
-  if(status && status!=="all"){
+  if (status && status !== "all") {
     // const statusArr
-    snapShot=snapShot.where("category", "==", status)
+    snapShot = snapShot.where("category", "==", status);
   }
 
-  
-  const totalPage= await getTotalPage(snapShot,pageSize)
-  const postSnapShot=await snapShot?.limit(pageSize).offset((page-1)*pageSize).get()
-
-
+  const totalPage = await getTotalPage(snapShot, pageSize);
+  const postSnapShot = await snapShot
+    ?.limit(pageSize)
+    .offset((page - 1) * pageSize)
+    .get();
 
   const posts = postSnapShot.docs.map((doc) => {
     const data = doc.data(); // ✅ define data first
@@ -41,7 +38,7 @@ export async function getPosts(option){
   });
 
   // return {posts,totalPage};
-  return {posts,totalPage};
+  return { posts, totalPage };
 }
 
 export async function getPost(id) {
@@ -65,7 +62,25 @@ export async function getPost(id) {
   };
 }
 
-export async function getCommets(postId){
+export async function getPostByIds(postIds) {
+  if (!postIds.length) {
+    return [];
+  }
+  // where name revers to the id of the document. so u grabing document by id .where("__name__", "in", ["id1", "id2"])
+  const propertiesSnapshot = await firestore
+    .collection("posts")
+    .where("__name__", "in", postIds)
+    .get();
+
+  const propertyData = propertiesSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  return propertyData;
+}
+
+export async function getCommets(postId) {
   const commentsRef = firestore
     .collection("posts")
     .doc(postId)
@@ -73,15 +88,97 @@ export async function getCommets(postId){
     .orderBy("createdAt", "desc");
 
   const commentSnap = await commentsRef.get();
-  
-  return commentSnap.docs.map((doc)=>{
-    const data=doc.data()
-   return {
-    id:doc.id,
-    ...doc.data(),
-    createdAt: data.createdAt?.toDate
+
+  return commentSnap.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      ...doc.data(),
+      createdAt: data.createdAt?.toDate
         ? data.createdAt.toDate().toISOString()
         : data.createdAt,
+    };
+  });
+}
+
+export async function getAnnouncement() {
+  const snapShot = firestore
+    .collection("announcements")
+    .orderBy("createdAt", "desc");
+  const dataSnaps = await snapShot.get();
+
+  return dataSnaps.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      ...data,
+      createdAt: data.createdAt?.toDate
+        ? data.createdAt.toDate().toISOString()
+        : data.createdAt,
+      updated: data.updated?.toDate
+        ? data.updated.toDate().toISOString()
+        : data.updated,
+    };
+  });
+}
+
+export async function getAnnouncId(id) {
+  const snapShot = await firestore.collection("announcements").doc(id).get();
+  if (!snapShot.exists) {
+    return {};
   }
-})
+
+  const data = snapShot.data();
+
+  // Helper to safely convert Firestore Timestamps to ISO strings
+  const toISOStringSafe = (val) =>
+    val?.toDate ? val.toDate().toISOString() : val || null;
+
+  return {
+    id: snapShot.id,
+    ...data,
+    createdAt: toISOStringSafe(data.createdAt),
+    updatedAt: toISOStringSafe(data.updatedAt),
+    expiresAt: toISOStringSafe(data.expiresAt),
+    updated: toISOStringSafe(data.updated),
+  };
+}
+
+export async function getEvent() {
+  const snapShot = firestore.collection("event").orderBy("createdAt", "desc");
+  const dataSnap = await snapShot.get();
+
+  return dataSnap.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      ...data,
+      createdAt: data.createdAt?.toDate
+        ? data.createdAt.toDate().toISOString()
+        : data.createdAt,
+      updated: data.updated?.toDate
+        ? data.updated.toDate().toISOString()
+        : data.updated,
+    };
+  });
+}
+
+export async function getEventId(id) {
+  const snapShot = await firestore.collection("event").doc(id).get();
+  if (!snapShot.exists) {
+    return {};
+  }
+  const data = snapShot.data();
+  return {
+    id: snapShot.id,
+    ...data,
+    // ✅ Convert Firestore Timestamps to ISO strings
+    date: data.date?.toDate ? data.date.toDate().toISOString() : data.date,
+    createdAt: data.createdAt?.toDate
+      ? data.createdAt.toDate().toISOString()
+      : data.createdAt,
+    updated: data.updated?.toDate
+      ? data.updated.toDate().toISOString()
+      : data.updated,
+  };
 }

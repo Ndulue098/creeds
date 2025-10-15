@@ -2,7 +2,7 @@
 
 import { auth, firestore } from "@/firebase/Server"
 
-export async function handleDeletePost(postId,token){
+export async function handleDeletePost(postId,token,field){
     const verifiedToken=await auth.verifyIdToken(token)
     if (!verifiedToken){
         return {
@@ -11,5 +11,6 @@ export async function handleDeletePost(postId,token){
         }
     }
 
-    await firestore.collection("posts").doc(postId).delete()
+    await firestore.collection(`${field}`).doc(postId).delete()
 }
+  

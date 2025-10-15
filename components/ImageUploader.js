@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { ImagePlus, X } from "lucide-react";
 
 export default function ImageUploader({ onImageChange, image }) {
   const uploadRef = useRef(null);
@@ -31,27 +31,45 @@ export default function ImageUploader({ onImageChange, image }) {
   }
 
   return (
-    <div className="mb-3">
-      <input onChange={handleInputChange} className="hidden" ref={uploadRef} type="file" accept="image/*" />
-      <Button onClick={handleConnect} type="button">
-        Add Image
-      </Button>
-      {(image?.url || image)  && (
-        <div className="bg-gray-100 mt-3 flex gap-2 items-center rounded-lg overflow-hidden">
-          <div className="size-20 relative">
+    <div className="space-y-3">
+      <input
+        onChange={handleInputChange}
+        className="hidden"
+        ref={uploadRef}
+        type="file"
+        accept="image/*"
+      />
+
+      {!image && (
+        <Button
+          onClick={handleConnect}
+          type="button"
+          variant="outline"
+          className="flex items-center gap-2 border-dashed border-2 border-gray-300 hover:border-blue-500 hover:text-blue-600 transition"
+        >
+          <ImagePlus className="h-5 w-5" />
+          Add Image
+        </Button>
+      )}
+
+      {image && (
+        <div className="relative group rounded-xl overflow-hidden border border-gray-200 shadow-sm w-full max-w-sm">
+          <div className="aspect-video relative">
             <Image
-              src={typeof image=="string"?image: image.url}
+              src={typeof image === "string" ? image : image.url}
               alt="Uploaded image"
               fill
-              className="object-center"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
               unoptimized
             />
           </div>
+
+          {/* Overlay */}
           <div
-            className="mr-2 h-full ml-auto cursor-pointer"
             onClick={handleDelete}
+            className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
           >
-            <X size={24} />
+            <X className="text-white w-8 h-8" />
           </div>
         </div>
       )}

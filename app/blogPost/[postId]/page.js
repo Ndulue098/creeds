@@ -1,19 +1,20 @@
-import { Badge } from "@/components/ui/badge";
+import ToggleBookmark from "@/app/blog-posts/ToggleBookmark";
+import Comment from "@/app/blogPost/[postId]/Comment";
+import BadgeCategory from "@/components/BadgeCategory";
+import { getBookMarkById } from "@/data/getBookMarks";
+import { Likes } from "@/data/Likes";
 import { getPost } from "@/data/postData";
-import Image from "next/image";
 import { format } from "date-fns";
+import {
+  MessageCircle
+} from "lucide-react";
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import TurndownService from "turndown";
-import BadgeCategory from "@/components/BadgeCategory";
-import {
-  BookmarkPlus,
-  Heart,
-  MessageCircle,
-  ScrollTextIcon,
-} from "lucide-react";
-import Comment from "@/app/blogPost/[postId]/Comment";
 import CommentsPost from "./CommentsPost";
+import ToggleLike from "./toggleLike";
+import Link from "next/link";
 
 const turndownService = new TurndownService();
 
@@ -26,18 +27,24 @@ export default async function page({ params }) {
   console.log(post);
 
   //    console.log("Markdown",convertToMarkdown(post.htmlString));
-
-  const formattedCreated = format(new Date(post.createdAt), "MMMM d, yyyy");
-  const formattedUpdated = post.updatedAt
+  // ! data formatter
+    const formattedCreated = format(new Date(post.createdAt), "MMMM d, yyyy");
+    const formattedUpdated = post.updatedAt
     ? format(new Date(post.updatedAt), "MMMM d, yyyy")
     : null;
+  // ! data formatter
 
 
-  
+  const marked = await getBookMarkById(postId);
+  console.log("marked", marked);
+  const { isBookmarked } = marked || {};
+
+  // likes
+  const likeNum = await Likes(postId);
 
   return (
     <>
-      <article className="mx-auto max-w-4xl px-4 py-8">
+      <article className="mx-auto w-full max-w-4xl px-4 py-8">
         {/* Blog Image */}
         {post.imageUrl && (
           <div className="relative aspect-video w-full mb-8 overflow-hidden rounded-2xl shadow-lg">
@@ -67,18 +74,20 @@ export default async function page({ params }) {
             <span>• {formattedCreated}</span>
             {formattedUpdated && <span>• Updated {formattedUpdated}</span>}
           </div>
-          <div className="flex items-center text-sm gap-5">
-            <Heart size={17} strokeWidth={1.5} />
-            <MessageCircle size={17} strokeWidth={1.5} />
-            <BookmarkPlus size={20} strokeWidth={1.5} />
+          <div className="flex items-center text-sm gap-5 ">
+            {/* <Heart size={17} strokeWidth={1.5} /> */}
+            <div className="flex gap-2 items-center justify-center">
+              <ToggleLike postId={postId} />
+              <small>{likeNum}</small>
+            </div>
+            <Link href="#comment">
+              <MessageCircle size={17} strokeWidth={1.5} />
+            </Link>
+            <ToggleBookmark postId={postId} marked={isBookmarked} />
           </div>
         </div>
 
-        {/* Article Content */}
-        {/* <div
-     className="prose prose-lg prose-neutral dark:prose-invert max-w-none prose-h1:mb-6 prose-h3:mt-10 prose-h3:mb-4 prose-p:leading-relaxed"
-     dangerouslySetInnerHTML={{ __html: post.htmlString }}
-     /> */}
+        
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
@@ -127,7 +136,7 @@ export default async function page({ params }) {
       </article>
 
       <Comment postId={postId} />
-      <CommentsPost postId={postId}/>
+      <CommentsPost postId={postId} />
     </>
   );
 }

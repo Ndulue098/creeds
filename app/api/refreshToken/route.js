@@ -10,7 +10,7 @@ export const GET = async (request) => {
   }
 
   const cookieStore = cookies();
-  const refreshToken = cookieStore.get("firebaseAuthRefreshToken")?.value;
+  const refreshToken = cookieStore.get("firebaseRefeshToken")?.value;
 
   if (!refreshToken) {
     return NextResponse.redirect(new URL("/", request.url));

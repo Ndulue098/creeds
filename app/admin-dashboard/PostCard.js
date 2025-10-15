@@ -57,7 +57,7 @@ export default async function PostCard({page,sort,status,searchParamsVal}) {
               <TableHead>Category</TableHead>
               <TableHead></TableHead>
             </TableRow>
-          </TableHeader>
+          </TableHeader> 
           <TableBody>
             {posts?.map((post, i) => {
               const plainText = post.title;
@@ -84,7 +84,7 @@ export default async function PostCard({page,sort,status,searchParamsVal}) {
                       </Link>
                     </Button>
                     
-                    <DeletePost postId={post.id}/>
+                    <DeletePost postId={post.id} field={"posts"}/>
                   </TableCell>
                 </TableRow>
               );

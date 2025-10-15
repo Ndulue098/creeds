@@ -1,5 +1,5 @@
 import { getPosts } from "@/data/postData";
-import ArticleCard from "./ArticleCard";
+import ArticleCard from "../../components/ArticleCard";
 import SortFilter from "../admin-dashboard/SortFilter";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -17,7 +17,7 @@ export default async function ArticleCards({
       pageSize: 20,
     },
     filter: {
-      status,
+      status, 
     },
   };
   const { posts, totalPage } = await getPosts(option);

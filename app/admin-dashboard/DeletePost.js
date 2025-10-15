@@ -6,8 +6,9 @@ import { Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import { handleDeletePost } from "./action";
 import { useRouter } from "next/navigation";
+import { removeMarked } from "../blog-posts/action";
 
-export default function DeletePost({postId}){
+export default function DeletePost({postId,field}){
     const [isDeleting,setIsDeleting]=useState(false)
     const authContext=useAuthContext()
     const route=useRouter()
@@ -17,7 +18,9 @@ export default function DeletePost({postId}){
         const token=await authContext.currentUser?.getIdToken()
         if(!token) return
         
-        await handleDeletePost(postId,token)
+
+        await handleDeletePost(postId,token,field)
+        if(field==="posts")await removeMarked(postId,token)
         
         // later set to ture
         setIsDeleting(false)
