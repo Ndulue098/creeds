@@ -24,6 +24,7 @@ export async function addComment(data,token){
 }
 
 export async function toggleLike(token, postId) {
+  
   const verifiedToken = await auth.verifyIdToken(token);
   if (!verifiedToken) {
     return { error: true, message: "Unauthorized user" };
@@ -46,4 +47,15 @@ export async function toggleLike(token, postId) {
     await likeRef.set({ liked: true, createdAt: new Date() });
     return { liked: true };
   }
+}
+
+export async function delComment(postId,commendId,token){
+   const verifiedToken = await auth.verifyIdToken(token);
+  if (!verifiedToken) {
+    return { error: true, message: "Unauthorized user" };
+  }
+
+  const commentRef= firestore.collection("posts").doc(postId).collection(`comments`).doc(commendId)
+  await commentRef.delete()
+  revalidatePath(`/blogPost/${postId}`)
 }

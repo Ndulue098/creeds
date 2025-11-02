@@ -5,12 +5,16 @@ import { Building2Icon } from "lucide-react";
 import Nav from "@/components/Nav";
 import { Poppins } from "next/font/google";
 // import { Toaster } from "sonner";
+import { Merriweather } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
+
+
+const merriweather = Merriweather({ subsets: ["latin"], weight: ["400", "700","800","900"] });
 
 export const metadata = {
   title: "Create Next App",
@@ -19,9 +23,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full scroll-smooth">
       <body
-        className={`${poppins.className} antialiased min-h-full grid grid-rows-[4rem_1fr]`}
+        // className={`${poppins.className} relative antialiased `}
+        className={`${merriweather.className} relative antialiased `}
       >
         <AuthProviderContext>
           <Nav />
@@ -32,3 +37,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+// min-h-full grid grid-rows-[4rem_1fr]

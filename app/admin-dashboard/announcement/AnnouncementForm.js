@@ -19,6 +19,7 @@ import { useAuthContext } from "@/context/auth";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "@/firebase/Client";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function AnnouncementForm({defaultval,label,onEdit}){
   const {title,message,image}=defaultval||{}
@@ -46,6 +47,17 @@ export default function AnnouncementForm({defaultval,label,onEdit}){
 
     const response = await addAnnouncement(token, { ...data, author });
     if (!response?.success) return;
+
+    if (response?.error) {
+      toast.error("Error!", {
+        description: response.message,
+      });
+      return;
+    }
+
+    toast.success("Success!", {
+      description: "Announcement Added",
+    });
 
 
     if (data.image?.file) {

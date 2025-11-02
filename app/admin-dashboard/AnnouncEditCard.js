@@ -48,8 +48,8 @@ export default async function AnnouncEditCard({ data = [], label,Btn}) {
 
       :
         <Table>
-          <TableHeader>
-            <TableRow>
+          <TableHeader >
+            <TableRow >
               <TableHead>Image</TableHead>
               <TableHead>Title </TableHead>
               <TableHead>Description</TableHead>

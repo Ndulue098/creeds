@@ -5,6 +5,7 @@ import { Bookmark } from "lucide-react";
 import { addMarked, removeMarked } from "./action";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function ToggleBookmark({ postId, marked }) {
   const authContext = useAuthContext();
@@ -12,15 +13,24 @@ export default function ToggleBookmark({ postId, marked }) {
   const route = useRouter();
 
   async function toggleMarked() {
+    // u can get access to roles like abmin etc
     const tokenResult = await authContext?.currentUser?.getIdTokenResult();
     //   const token = await authContext.currentUser?.getIdToken();
     if (!tokenResult) {
+      route.push(`/login?post=${postId}`,{scroll:false})
+      // route.push(`/login?redirect=/blog-posts/${postId}&bookmark=true`)
       return;
     }
-    if (!marked) {
-      await addMarked(postId, tokenResult.token);
-    } else {
+    if (marked) {
       await removeMarked(postId, tokenResult.token);
+      toast("Favourite",{
+        description:"Post Removed from BookMark"
+      })
+    } else {
+      await addMarked(postId, tokenResult.token);
+      toast.success("Success",{
+        description:"Post Added to BookMark"
+      }) 
     }
     route.refresh();
   }
@@ -30,9 +40,9 @@ export default function ToggleBookmark({ postId, marked }) {
       <Bookmark
         onClick={toggleMarked}
         size={18}
-        fill={marked ? "#db2777" : "white"}
+        fill={marked ? "oklch(62.7% 0.194 149.214)" : "white"}
         // fill={marked||""}
-        className={cn("transition cursor-pointer")}
+        className={cn("transition cursor-pointer ")}
       />
     </div>
   );

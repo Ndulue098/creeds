@@ -6,7 +6,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
-export default function ToggleLike({ postId }) {
+export default function ToggleLike({ postId,isLiked }) {
   const authContext = useAuthContext();
   const [liked, setLiked] = useState("");
 
@@ -28,7 +28,7 @@ export default function ToggleLike({ postId }) {
         onClick={handleToggleLike}
         className={cn(
           "cursor-pointer transition",
-          liked ? "fill-red-500 stroke-red-500" : "stroke-muted-foreground"
+          isLiked ? "fill-green-500 stroke-green-500" : "stroke-muted-foreground"
         )}
       />
     </div>

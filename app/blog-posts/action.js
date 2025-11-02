@@ -8,7 +8,7 @@ export async function addMarked(postId,token){
     if(!verifiedToken){
         return {
             error:true,
-            message:"Unauthorized",
+            message:"Unauthorized", 
         }
     }
 
@@ -34,3 +34,4 @@ export async function removeMarked(postId,token) {
         [postId]:FieldValue.delete()
     })
 }
+

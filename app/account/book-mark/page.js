@@ -11,8 +11,8 @@ export default async function page() {
   console.log(markedPost);
 
   return (
-    <div className="max-w-7xl mx-auto flex flex-col gap-10 ">
-      <h1>Your Bookmarks</h1>
+    <div className="max-w-6xl mx-auto flex flex-col gap-10 ">
+      <h1 className="text-4xl font-semibold capitalize mb-6 mt-2">Your Bookmarks</h1>
       <div className="grid  sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {markedPost.map((post, i) => (
           <ArticleCard key={post.id} post={post} type={"bm"}/>

@@ -41,6 +41,10 @@ export default function AuthBtn() {
                 <DropdownMenuItem asChild>
                         <Link href="/account">My Account</Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                        <Link href="/account/book-mark">Bookmarks</Link>
+                </DropdownMenuItem>
+
                 {
                 !!authContext.customClaims?.admin &&
                 <DropdownMenuItem asChild> 
@@ -56,9 +60,9 @@ export default function AuthBtn() {
 
         {!authContext?.currentUser &&
             <div className="flex gap-2 items-center ">
-            <Link className=" uppercase tracking-widest hover:underline" href="/login">Login</Link>
+            <Link className=" uppercase tracking-widest hover:underline underline-offset-2" href="/login">Login</Link>
             <div className="bg-white/50 h-8 w-[1px]"/>
-            <Link className=" uppercase tracking-widest hover:underline" href="/register">Signup</Link>
+            <Link className=" uppercase tracking-widest hover:underline underline-offset-2" href="/register">Signup</Link>
         </div>}
 
         </div>

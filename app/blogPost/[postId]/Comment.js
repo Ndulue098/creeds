@@ -107,7 +107,7 @@ export default function Comment({ postId }) {
               <Button
                 type="submit"
                 disabled={!UserName}
-                className="bg-blue-600 hover:bg-blue-700 mt-3 text-white px-6"
+                className=" mt-3  text-white px-6"
               >
                 Post Comment
               </Button>

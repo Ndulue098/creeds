@@ -3,11 +3,9 @@ import Comment from "@/app/blogPost/[postId]/Comment";
 import BadgeCategory from "@/components/BadgeCategory";
 import { getBookMarkById } from "@/data/getBookMarks";
 import { Likes } from "@/data/Likes";
-import { getPost } from "@/data/postData";
+import { getLike, getPost } from "@/data/postData";
 import { format } from "date-fns";
-import {
-  MessageCircle
-} from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -15,6 +13,11 @@ import TurndownService from "turndown";
 import CommentsPost from "./CommentsPost";
 import ToggleLike from "./toggleLike";
 import Link from "next/link";
+import { dateConvert, formatDate } from "@/lib/utils";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
+import { cookies } from "next/headers";
+import { auth } from "@/firebase/Server";
 
 const turndownService = new TurndownService();
 
@@ -24,16 +27,26 @@ function convertToMarkdown(htmlString) {
 export default async function page({ params }) {
   const { postId } = await params;
   const post = await getPost(postId);
-  console.log(post);
+
+  //! getting the auth token, verifying it and getting the uid 
+  const cookiesStore = await cookies();
+  const token = cookiesStore.get("firebaseAuthToken")?.value;
+  const verified=await auth.verifyIdToken(token)
+  
+  const like = await getLike(postId, verified?.uid);
+
+  const datefn = formatDate(post?.updatedAt);
+  const datecon = dateConvert(post.createdAt);
+
 
   //    console.log("Markdown",convertToMarkdown(post.htmlString));
   // ! data formatter
-    const formattedCreated = format(new Date(post.createdAt), "MMMM d, yyyy");
-    const formattedUpdated = post.updatedAt
+  // const formattedCreated = format(new Date(post.createdAt), "MMMM d, yyyy");
+  // ! data formatter
+  const formattedCreated = formatDate(post.createdAt);
+  const formattedUpdated = post.updatedAt
     ? format(new Date(post.updatedAt), "MMMM d, yyyy")
     : null;
-  // ! data formatter
-
 
   const marked = await getBookMarkById(postId);
   console.log("marked", marked);
@@ -44,7 +57,7 @@ export default async function page({ params }) {
 
   return (
     <>
-      <article className="mx-auto w-full max-w-4xl px-4 py-8">
+      <article className="mx-auto w-full max-w-4xl px-4 py-8 mt-2">
         {/* Blog Image */}
         {post.imageUrl && (
           <div className="relative aspect-video w-full mb-8 overflow-hidden rounded-2xl shadow-lg">
@@ -77,7 +90,7 @@ export default async function page({ params }) {
           <div className="flex items-center text-sm gap-5 ">
             {/* <Heart size={17} strokeWidth={1.5} /> */}
             <div className="flex gap-2 items-center justify-center">
-              <ToggleLike postId={postId} />
+              <ToggleLike postId={postId} isLiked={like?.liked} />
               <small>{likeNum}</small>
             </div>
             <Link href="#comment">
@@ -86,52 +99,24 @@ export default async function page({ params }) {
             <ToggleBookmark postId={postId} marked={isBookmarked} />
           </div>
         </div>
-
-        
+ 
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeRaw, rehypeSanitize]}
           components={{
-            h1: ({ node, ...props }) => (
-              <h1
-                {...props}
-                style={{
-                  fontSize: "2rem",
-                  fontWeight: "bold",
-                  marginBottom: "1rem",
-                }}
-              />
-            ),
-            h3: ({ node, ...props }) => (
-              <h3
-                {...props}
-                style={{
-                  fontSize: "1.25rem",
-                  fontWeight: "600",
-                  marginTop: "2rem",
-                  marginBottom: "0.5rem",
-                }}
-              />
+            h2: ({ node, ...props }) => (
+              <h2 {...props} className="text-xl font-bold mb-3" />
             ),
             p: ({ node, ...props }) => (
-              <p
-                {...props}
-                style={{ lineHeight: "1.75", marginBottom: "1rem" }}
-              />
+              <p {...props} className="leading-7 mb-4 text-gray-700" />
             ),
             ul: ({ node, ...props }) => (
-              <ul
-                {...props}
-                style={{
-                  paddingLeft: "1.5rem",
-                  listStyleType: "disc",
-                  marginBottom: "1rem",
-                }}
-              />
+              <ul {...props} className="list-disc ml-6 mb-4 text-gray-800" />
             ),
+            hr: () => <hr className="my-4 border-gray-300" />,
           }}
-          //       className="prose prose-lg prose-neutral dark:prose-invert max-w-none"
         >
-          {convertToMarkdown(`${post.artic}`)}
+          {post.artic}
         </ReactMarkdown>
       </article>
 

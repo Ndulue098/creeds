@@ -5,10 +5,21 @@ export const textSchema=z.object({
 })
 
  export const ImageSchema=z.object({
-    image:z.object({
-        id:z.string(),
-        url:z.string(),
-        file:z.instanceof(File).optional()  
-    }).nullable(),
-    article: z.string().min(1, "Article cannot be empty"),
+    // image:z.object({
+    //     id:z.string(),
+    //     url:z.string(),
+    //     file:z.instanceof(File).optional()  
+    // }).nullable(),
+    // article: z.string().min(1, "Article cannot be empty"),
+    image: z
+    .union([z.string().url(), z.any()])
+    .optional()
+    .nullable()
+    .refine(
+      (val) =>
+        val === null || typeof val === "object" || typeof val === "string",
+      { message: "Invalid image format" }
+    ),
  })
+
+ 

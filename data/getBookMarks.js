@@ -1,7 +1,7 @@
+import "server-only"
 import { auth, firestore } from "@/firebase/Server"
 import { cookies } from "next/headers"
-import "server-only"
-
+ 
 export default async function getBookMarks() {
   const cookieStore = cookies();
   const token = cookieStore.get("firebaseAuthToken")?.value;

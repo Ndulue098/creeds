@@ -17,8 +17,9 @@ export default async function ArticleCards({
       pageSize: 20,
     },
     filter: {
-      status, 
+      status,
     },
+    sort,
   };
   const { posts, totalPage } = await getPosts(option);
   console.log(posts);
@@ -34,8 +35,12 @@ export default async function ArticleCards({
         {Array.from({ length: totalPage }, (_, i) => {
           const filter = new URLSearchParams();
 
-          if (searchParamsVal.status) {
+          // if (searchParamsVal.status) {
+          //   filter.set("status", searchParamsVal.status);
+          // }
+          if (searchParamsVal.status || searchParamsVal.sort) {
             filter.set("status", searchParamsVal.status);
+            filter.set("sort", searchParamsVal.sort);
           }
           filter.set("page", `${i + 1}`);
 

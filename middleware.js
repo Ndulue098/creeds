@@ -3,54 +3,64 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export default async function middleware(request) {
+  const cookieStore = await cookies();
+  const jwtToken = cookieStore.get("firebaseAuthToken")?.value;
+  const url = request.nextUrl;
+
+  const isAuthPage=url.pathname.startsWith("/login")||url.pathname.startsWith("/register")
+  const isAdminPage=url.pathname.startsWith("/admin-dashboard")
+
   if (request.method === "POST") {
     return NextResponse.next();
   }
 
-  const cookieStore = await cookies();
-  const jwtToken = cookieStore.get("firebaseAuthToken")?.value;
+  // logout user can access the page
+  if (!jwtToken){
+    if(isAuthPage) return NextResponse.next()
+    if(isAdminPage) return NextResponse.redirect(new URL("/login?msg=unauthorized", request.url))
+    
+    return NextResponse.next()
+  }
 
+  // if (!jwtToken && (isAuthPage)) {
+  //   return NextResponse.next();
+  // }
+
+  // login user can't access the login page
+  // if (jwtToken && (isAuthPage)) {
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
+  
   let decodedToken;
   if (jwtToken) {
     try {
       decodedToken = decodeJwt(jwtToken);
-    } catch (error) {
-      console.error("Invalid JWT:", error);
-    }
+    } catch {
+      // this runs if decoded token fails
+    const res = NextResponse.redirect(new URL("/login?msg=invalid_token", request.url));
+    res.cookies.delete("firebaseAuthToken");
+    return res;
+  }
   }
 
-  // logout user can access the page
-  if (!jwtToken && (
-      request.nextUrl.pathname.startsWith("/login")||
-      request.nextUrl.pathname.startsWith("/register"))) {
-    return NextResponse.next();
+  // 3️⃣ Check for expiration
+  if (decodedToken.exp * 1000 < Date.now()) {
+    const res = NextResponse.redirect(new URL("/?msg=session_expired", request.url));
+    res.cookies.delete("firebaseAuthToken");
+    return res;
   }
 
-  // login user can't access the login page
-  if (jwtToken && (
-    request.nextUrl.pathname.startsWith("/login") ||
-      request.nextUrl.pathname.startsWith("/register")
-    )) {
+  if (isAuthPage) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-
-   // checking is token will expire within the next 5min
-    // redirect to this 
-    // were we can take as much time to request another auth token, cause issuring a fetch request on middle ware take 1.5 sec
-    // we will create a new api root responsible for fetching the we can take as long as we need to get the new auth token for the user
-    // 
-    if(decodedToken.exp && (decodedToken.exp-300) * 1000<Date.now()){
-        return NextResponse.redirect(new URL(`/api/refresh-token?redirect=${encodeURIComponent(request.nextUrl.pathname)}`,request.url))
-    } 
-
-
-  if(!decodedToken && request.nextUrl.pathname.startsWith("/admin-dashboard")){
-    return NextResponse.redirect(new URL("/",request.url))
+  const isAdmin = decodedToken.admin === true; // this relies on your custom claim
+  // no decoded token and u trying to access admin page
+  if (isAdminPage && !isAdmin) {
+    return NextResponse.redirect(new URL("/?msg=not_admin", request.url));
   }
-//   if (decodedToken && request.nextUrl.pathname.startsWith("/login")) {
-//     return NextResponse.redirect(new URL("/", request.url));
-//   }
+
+ 
 
   return NextResponse.next();
 }
@@ -60,5 +70,5 @@ export const config = {
             "/register",
             "/admin-dashboard",
             "/admin-dashboard/:path*",
-  ],
+  ], 
 };

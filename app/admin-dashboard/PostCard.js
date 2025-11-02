@@ -35,9 +35,7 @@ export default async function PostCard({page,sort,status,searchParamsVal}) {
   filter:{
     status
   },
-  sort:{
-    sortby:sort
-  }
+  sort
   });
   
 
@@ -96,8 +94,9 @@ export default async function PostCard({page,sort,status,searchParamsVal}) {
 
               {Array.from({ length: totalPage }).map((_, i) => {
                 const filter=new URLSearchParams()
-                if(searchParamsVal.status){
+                if(searchParamsVal.status || searchParamsVal.sort){
                   filter.set("status",searchParamsVal.status)                  
+                  filter.set("sort",searchParamsVal.sort)                  
                 }
                 filter.set("page",`${i+1}`)
                 return  <Button

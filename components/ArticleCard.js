@@ -1,7 +1,7 @@
 import BadgeCategory from "@/components/BadgeCategory";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { Bookmark, BookMarked, Building2Icon, Heart } from "lucide-react";
+import { Bookmark, BookMarked, Building2Icon, Heart, MoveRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ToggleBookmark from "../app/blog-posts/ToggleBookmark";
@@ -12,10 +12,10 @@ export default async function ArticleCard({ post, type }) {
   const { title, artic, category, createdAt, image, id } = post;
   //   const [liked, setLiked] = useState(false);
 
-  //   const toggleLike = () => setLiked((prev) => !prev);
-  const mark = await getBookMarks();
+  //   const toggleLike = () => setLiked((prev) => !prev); 
+  const mark = await getBookMarks(); 
   return (
-    <div className="group flex flex-col h-full relative overflow-hidden rounded-2xl border-[1px] border-border bg-card transition hover:-translate-y-1 duration-300">
+    <div className="group flex flex-col h-full relative overflow-hidden border-[1px] bg-card transition hover:-translate-y-1 duration-300">
       {/* Image */}
       <div className="relative h-46 w-full overflow-hidden ">
         {image && (
@@ -65,10 +65,12 @@ export default async function ArticleCard({ post, type }) {
         <p className="text-xs text-muted-foreground line-clamp-3">
           {artic?.replace(/<[^>]+>/g, "").slice(0, 150)}...
         </p>
-        <Link href={`/blogPost/${id}`} className="w-full mt-auto">
-          <Button className="w-full">view Aritcle</Button>
+        <Link href={`/blogPost/${id}`} className="w-full mt-auto flex gap-2 items-center ">
+          <MoveRight /> <small>READ MORE</small>
+          {/* <Button className="w-full">view Aritcle</Button> */}
         </Link>
       </div>
     </div>
   );
 }
+ 

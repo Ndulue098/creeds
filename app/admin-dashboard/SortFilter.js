@@ -13,10 +13,10 @@ import { useCallback, useState } from "react";
 
 export default function SortFilter() {
     const searchParams=useSearchParams()
-    const router=useRouter()
+    const router=useRouter() 
     const pathName=usePathname()
 
-    const currentSort = searchParams.get("sort") || "asc"
+    const currentSort = searchParams.get("sort") || "desc"
     const currentFilter = searchParams.get("status") || ""
 
     const setParam=useCallback((key,value)=>{

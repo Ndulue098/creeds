@@ -19,6 +19,7 @@ import { addEvent, saveImage } from "./action";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "@/firebase/Client";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function EventForm({onEdit,label,defaultval}) {
   // onEdit={edit} label={label} defaultval={defaultval}
@@ -39,14 +40,13 @@ export default function EventForm({onEdit,label,defaultval}) {
   });
   const form = useForm({
     resolver: zodResolver(eventSchema),
-    defaultValues: {
-      title: "", 
-      message: "",
-      location: "",
-      date: null,
-      image: null,
-      ...defaultval
-    },
+     defaultValues: {
+    title: defaultval?.title || "",
+    message: defaultval?.message || "",
+    location: defaultval?.location || "",
+    date: defaultval?.date ? new Date(defaultval.date) : null,
+    image: defaultval?.image || null,
+  },
   });
   const route = useRouter();
   const authContext = useAuthContext();
@@ -62,6 +62,18 @@ export default function EventForm({onEdit,label,defaultval}) {
     if (!response?.success) return;
 
     console.log(response.id);
+    console.log(response);
+    if (response?.error) {
+      toast.error("Error!", {
+        description: response.message,
+      });
+      return;
+    }
+
+    toast.success("Success!", {
+      description: "New Event Added",
+    });
+
     //
 
     // image store

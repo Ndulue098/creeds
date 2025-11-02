@@ -6,6 +6,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "@/firebase/Client";
 import updateAnnounce from "./announcement/edit/[announceId]/action";
 import updateEvent from "@/app/admin-dashboard/event/edit/[editId]/action";
+import { saveImage as saveImageEdit } from "./event/action";
 import { saveImage } from "./announcement/action";
 
 export default function EditCom({ defaultval,Element,field}) {
@@ -38,12 +39,18 @@ export default function EditCom({ defaultval,Element,field}) {
       });
 
       const downloadURL = await getDownloadURL(storageRef);
-      await saveImage({ postId: defaultval.id, image: downloadURL }, token);
+      // await saveImage({ postId: defaultval.id, image: downloadURL }, token);
+      if(field==="event"){
+        await saveImageEdit({ postId: defaultval.id, image: downloadURL },token);
+      }else{
+        await saveImage({ postId: defaultval.id, image: downloadURL },token);
+      }
+      
     }
 
      route.push("/admin-dashboard")
   }
-
+ 
   const label = <p>Edit Announcement</p>;
 
   return (

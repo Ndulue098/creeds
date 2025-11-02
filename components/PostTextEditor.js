@@ -5,13 +5,15 @@ import { storage } from "@/firebase/Client";
 
 export default function PostTextEditor({ post, value, onChange }) {
   return (
-    <div className="p-4 max-w-[82rem] w-full mx-auto bg-white">
+    <div className="p-4 w-full mx-auto bg-white">
       <Editor
         apiKey="ic37pomxla7uwzhhkhf6sc695027lqwfddxorp5wniuxulwk"
         value={value || ""}
+         onEditorChange={(content) => onChange(content)}
         init={{
           height: 600,
           menubar: true,
+          resize: false,
           plugins:
             "image advlist autolink lists link charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount",
           toolbar:
@@ -54,7 +56,7 @@ export default function PostTextEditor({ post, value, onChange }) {
           // ✅ Optional: limit image size or type
           file_picker_types: "image",
         }}
-        onEditorChange={onChange}
+        // onEditorChange={onChange}
       />
     </div>
   );

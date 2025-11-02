@@ -9,7 +9,7 @@ export const announcementSchema = z.object({
   message: z
     .string()
     .min(5, "Message must be at least 5 characters long")
-    .max(500, "Message too long"),
+    .max(1000, "Message too long"),
 
   image: z
     .union([z.string().url(), z.any()])

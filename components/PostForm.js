@@ -10,7 +10,7 @@ import { ImageSchema } from "@/validator/textValidator";
 export default function PostForm({onSave,defaultVal={}}) {
      const form=useForm({ 
              resolver:zodResolver(ImageSchema),
-             defaultValues:{
+             defaultValues:{ 
              ...{image:null,
              article:""},
              ...defaultVal

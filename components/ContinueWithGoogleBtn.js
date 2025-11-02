@@ -6,11 +6,12 @@ import {Button} from "@/components/ui/button"
 export default function ContinueWithGoogleBtn(){
 
     const authContext=useAuthContext()
-    const route=useRouter()
+    const router=useRouter()
 
     async function handleLogin(){
         try{
             await authContext?.loginwithGoogle()
+            router.back()
         }catch(err){
 
         }
