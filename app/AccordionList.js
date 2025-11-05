@@ -13,7 +13,7 @@ export default function AccordionList({ data, isOpen, setIsOpen }) {
 >
   <div
     onClick={() => handleTogle(data.id)}
-    className="flex items-center gap-4 justify-between w-full px-6 py-5 text-left cursor-pointer"
+    className="flex items-center gap-6 justify-between w-full px-6 py-5 text-left cursor-pointer"
   >
     <h3 className="text-lg font-semibold text-emerald-900 dark:text-emerald-100">
       {data.title}

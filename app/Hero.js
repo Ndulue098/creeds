@@ -47,7 +47,7 @@ export default function Hero() {
       </div>
     </section> */
 
-    <section className="relative min-h-screen flex flex-col justify-center items-center text-gray-900 overflow-hidden bg-gradient-to-b from-green-50 via-white to-green-100">
+    <section className="relative min-h-screen mt-7 lg:mt-0 flex flex-col justify-center items-center text-gray-900 overflow-hidden bg-gradient-to-b from-green-50 via-white to-green-100">
       {/* Subtle grid lines */}
       <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,rgba(0,100,0,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,100,0,0.15)_1px,transparent_1px)] bg-[size:40px_40px]" />
 

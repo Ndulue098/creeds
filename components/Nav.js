@@ -3,8 +3,17 @@ import { Building2Icon } from "lucide-react";
 import Link from "next/link";
 import AuthBtn from "./AuthBtn";
 import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Button } from "./ui/button";
 
 // className="max-w-[90rem] mx-auto px-6 py-4 mt-3 flex items-center justify-between
 //           bg-gradient-to-r from-green-700/30 to-emerald-600/20
@@ -24,7 +33,7 @@ export default function Nav() {
   // }, []);
   // console.log("pathname",pathname);
   // console.log("hash",hash);
-  
+
   const navLinks = [
     {
       name: "Articles",
@@ -34,22 +43,23 @@ export default function Nav() {
       name: "Events",
       link: "/#event",
     },
-    { 
+    {
       name: "Announcements",
       link: "/#announcement",
     },
   ];
-//  bg-gradient-to-r from-green-100/80 via-white to-green-100/80 
+  //  bg-gradient-to-r from-green-100/80 via-white to-green-100/80
   return (
     //  from-green-700 to-emerald-600 backdrop-blur-md
 
-    <nav className={`${pathname==="/blog-posts"||"/blogPost"&&""} ${pathname==="/"&&"fixed"}  top-0 left-0 w-full z-50`}>
+    <nav
+      className={`${pathname === "/" ? "fixed" : ""} top-0 left-0 w-full z-50`}
+    >
       <div
-        className={`${pathname==="/"&&"shadow-[0_4px_20px_rgba(0,0,0,0.1)]"} max-w-[90rem] mx-auto px-6 py-4 mt-3 flex items-center justify-between 
-                
-                bg-green-100/80 
-                 border border-green-300/60 
-                rounded-lg text-green-900  transition-all`}
+        className={`${
+          pathname === "/" && "shadow-[0_4px_20px_rgba(0,0,0,0.1)]"
+        } max-w-[90rem] mx-auto md:px-6 px-3 py-4 mt-3 flex items-center justify-between
+        bg-green-100/80 border border-green-300/60 md:rounded-lg text-green-900 transition-all`}
       >
         {/* Logo */}
         <Link
@@ -60,25 +70,80 @@ export default function Nav() {
           <span>CREED</span>
         </Link>
 
-        {/* Menu */}
-        <ul className="hidden md:flex items-center gap-10 text-sm font-medium">
-          {navLinks.map((navLink,id) => (
+        {/* Desktop Links */}
+        <ul className="hidden md:flex items-center gap-10 text-sm font-medium  ">
+          {navLinks.map((navLink, id) => (
             <li key={id}>
               <Link
                 href={navLink.link}
                 scroll={true}
-                className={`${pathname===navLink.link?"text-green-500":"text-green-800"} hover:text-green-500 transition-colors duration-200`}
+                className={`${
+                  pathname === navLink.link
+                    ? "text-green-500"
+                    : "text-green-800"
+                } hover:text-green-500 transition-colors duration-200`}
               >
                 {navLink.name}
               </Link>
             </li>
           ))}
-
         </ul>
 
-        {/* Auth Button */}
-        <div>
+        {/* Auth Button (Desktop) */}
+        <div className="hidden md:block">
           <AuthBtn />
+        </div>
+
+        {/* Mobile Menu */}
+        <div className="md:hidden relative">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="border-green-400 text-green-700"
+              >
+                <Menu className="w-5 h-5" />
+              </Button>
+            </SheetTrigger>
+            {/* <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,rgba(0,100,0,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,100,0,0.15)_1px,transparent_1px)] bg-[size:40px_40px]" /> */}
+
+            <SheetContent
+              side="left"
+              className="w-[250px] bg-green-50 bg-gradient-to-b from-green-50 via-white to-green-100"
+            >
+              <SheetHeader>
+                <SheetTitle
+                  className="text-green-800 mt-3 py-5 flex px-3 border-y border-green-300/60  font-bold text-lg items-center
+                 gap-2  tracking-wide  hover:text-green-600 transition bg-green-100/80
+                "
+                >
+                  <Building2Icon className="w-6 h-6 text-green-800" />
+                  CREED
+                </SheetTitle>
+              </SheetHeader>
+
+              <div className="flex flex-col mt-6 space-y-4 text-green-800 ">
+                {navLinks.map((navLink, id) => (
+                  <Link
+                    key={id}
+                    href={navLink.link}
+                    className={`${
+                      pathname === navLink.link
+                        ? "text-green-600 font-semibold"
+                        : "hover:text-green-600"
+                    } transition-colors duration-200 hover:bg-green-100 p-2 px-3`}
+                  >
+                    {navLink.name}
+                  </Link>
+                ))}
+
+                <div className="pt-6 border-t px-4 border-green-200">
+                  <AuthBtn />
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </nav>
