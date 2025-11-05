@@ -60,7 +60,7 @@ function AuthProviderContext({ children }) {
     }
 
     // Fetch the latest token (Firebase auto refreshes if expired)
-    const token = await user.getIdToken(true);
+    const token = await user.getIdToken();
     const tokenResult = await user.getIdTokenResult();
     const claims = tokenResult.claims;
 

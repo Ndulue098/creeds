@@ -39,7 +39,7 @@ export default async function AnnouncementWireframe() {
         </p>
       </div>
 
-      <div className="grid w-full  h-[30rem] grid-cols-12 gap-5 ">
+      <div className="grid w-full  h-[30rem] md:grid-cols-12 md:grid-rows-none grid-rows-2 gap-5 ">
         <AnnouncementList announcements={data} />
       </div>
     </section>

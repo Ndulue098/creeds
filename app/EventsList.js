@@ -30,11 +30,9 @@ export default function EventsList({events}){
         </CarouselItem>
       ))}
 
-
       {
         selectedEvent && (
         <ModalEvent event={selectedEvent} onclose={closeModal} />
-
       )
       }
 

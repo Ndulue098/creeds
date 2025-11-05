@@ -40,9 +40,10 @@ export default function ToggleBookmark({ postId, marked }) {
       <Bookmark
         onClick={toggleMarked}
         size={18}
+        strokeWidth={1}
         fill={marked ? "oklch(62.7% 0.194 149.214)" : "white"}
         // fill={marked||""}
-        className={cn("transition cursor-pointer ")}
+        className={cn("transition cursor-pointer focus:ring-2 focus:ring-green-500")}
       />
     </div>
   );

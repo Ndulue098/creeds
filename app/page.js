@@ -11,6 +11,7 @@ import Accordion from "./Accordion";
 import Footer from "./Footer";
 import Hero from "./Hero";
 import Quote from "./Quotes";
+// export const revalidate = 120;
 
 export default function Home() {
   return (

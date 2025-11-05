@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function TopArticle({post}) {
       const { title, artic, category, createdAt, image, id } = post;
 
-    return <div className="grid grid-cols-2 mb-6 gap-6">
+    return <div className="grid sm:grid-cols-2 sm:grid-rows-none grid-rows-[60fr_40fr] mb-6 gap-6">
         {/* up */}
             <div className="relative h-[24rem] w-full overflow-hidden ">
         {image && (
@@ -34,7 +34,7 @@ export default function TopArticle({post}) {
         </div>
 
         {/* Title */}
-        <h2 className="text-5xl leading-tight font-light text-foreground  transition">
+        <h2 className="lg:text-5xl text-4xl leading-tight font-light text-foreground  transition">
           {title}
         </h2>
         {/* up */}

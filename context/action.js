@@ -24,13 +24,16 @@ export async function setToken({ token, refreshToken }) {
         admin: true,
       });
     }
-
+    // !
+    if (expiresIn <= 0) return; 
     // setting the cookies
     const cookiesStore = await cookies();
     cookiesStore.set("firebaseAuthToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-       maxAge: Math.floor(expiresIn / 1000), // 1 hour
+       maxAge: Math.floor(expiresIn / 1000),
+      sameSite:"lax"
+       //  maxAge: 3600
     });
     // cookiesStore.set("firebaseAuthToken", token, {
     //   httpOnly: true,

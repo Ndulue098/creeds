@@ -102,7 +102,9 @@ export default function Quote({
   }, [index]);
   // transform skew-2
   return (
-    <section className="relative bg-gradient-to-r max-w-5xl mx-auto rounded-lg transform transition-all duration-500 hover:skew-x-6 from-green-950 to-black  my-24 text-center py-14 px-6 text-gray-200 overflow-hidden">
+    <section className="relative bg-gradient-to-r max-w-5xl mx-auto lg:rounded-lg transform transition-all duration-500 hover:skew-x-6 from-green-950 to-black  my-24 text-center lg:py-14 py-12 lg:px-6 px-4 text-gray-200 overflow-hidden
+       xl:bg-red-600 lg:bg-red-400 md:bg-blue-400 sm:bg-red-200
+    ">
       {/* Brick pattern overlay */}
       {/* <div className="absolute inset-0 opacity-10 bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:60px_30px]" /> */}
 
@@ -118,7 +120,7 @@ export default function Quote({
           />
 
           <motion.h2
-            className="text-3xl md:text-4xl leading-[1] font-semibold  text-gray-100"
+            className="text-3xl lg:text-4xl leading-[1] font-semibold  text-gray-100"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}

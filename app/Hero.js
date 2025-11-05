@@ -52,19 +52,21 @@ export default function Hero() {
       <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,rgba(0,100,0,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,100,0,0.15)_1px,transparent_1px)] bg-[size:40px_40px]" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl px-4 grid md:grid-cols-2 gap-10 items-center">
+      <div className="relative z-10 max-w-7xl px-4 grid lg:grid-cols-2 lg:grid-rows-none grid-rows-2 gap-10 items-center
+        md:px-6
+      xl:bg-red-600 lg:bg-red-400 md:bg-blue-400 sm:bg-red-200">
         {/* Left - Text */}
-        <div className="text-start">
-          <h1 className="text-5xl sm:text-6xl font-bold mb-6 leading-tight">
+        <div className="lg:text-start text-center">
+          <h1 className="lg:text-5xl text-4xl font-bold lg:mb-6 mb-3  leading-tight">
             <span className="text-2xl block text-gray-600 mb-2">
               Beyond Bricks and Beams.
             </span>
             <span className="text-green-600 font-semibold">
-              We Build Ideas, Stories, and Futures.
+              We Build Ideas,<br/> Stories,<br/> and Futures.
             </span>
           </h1>
 
-          <p className="text-gray-700 mb-10 text-base max-w-xl">
+          <p className="text-gray-700 lg:mb-10 mb-5 text-base max-w-xl">
             <span className="text-green-700 font-semibold">Creeds</span> is
             created to educate, inform, and inspire. Discover the builder’s
             craft, campus stories, scholarly insights, and the events shaping
@@ -72,9 +74,9 @@ export default function Hero() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex gap-4">
+          <div className="flex gap-4 justify-center lg:justify-start ">
             <Link href={"/blog-posts"}>
-              <button className="px-6 py-3 bg-green-600 hover:bg-green-500 text-white font-semibold rounded-full transition-all duration-300 shadow-md">
+              <button className="px-6 py-3  bg-green-600 hover:bg-green-500 text-white font-semibold rounded-full transition-all duration-300 shadow-md">
                 View Articles
               </button>
             </Link>

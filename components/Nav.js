@@ -39,14 +39,15 @@ export default function Nav() {
       link: "/#announcement",
     },
   ];
- 
+//  bg-gradient-to-r from-green-100/80 via-white to-green-100/80 
   return (
     //  from-green-700 to-emerald-600 backdrop-blur-md
 
     <nav className={`${pathname==="/blog-posts"||"/blogPost"&&""} ${pathname==="/"&&"fixed"}  top-0 left-0 w-full z-50`}>
       <div
         className={`${pathname==="/"&&"shadow-[0_4px_20px_rgba(0,0,0,0.1)]"} max-w-[90rem] mx-auto px-6 py-4 mt-3 flex items-center justify-between 
-                bg-gradient-to-r from-green-100/80 via-white/70 to-green-100/80 
+                
+                bg-green-100/80 
                  border border-green-300/60 
                 rounded-lg text-green-900  transition-all`}
       >

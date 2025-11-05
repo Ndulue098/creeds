@@ -10,9 +10,11 @@ import { ArrowUpRightIcon, CalendarDays, MapPin } from "lucide-react";
 import Image from "next/image";
 import UpcomingEventCard from "./UpcomingEventCard";
 import eventImg from "@/public/events.svg";
-import { getEvent } from "@/data/postData"; 
+import { getEvent } from "@/data/postData";
 import ModalEvent from "./ModalEvent";
 import EventsList from "./EventsList";
+import { Suspense } from "react";
+import { EventsListSkeleton } from "@/components/EventListSkeleton";
 
 export default async function UpcomingEvent() {
   const events = await getEvent();
@@ -34,32 +36,25 @@ export default async function UpcomingEvent() {
           </p>
         </div>
       </div>
-      <div className="flex gap-12">
-        <div className="flex">
-          <Carousel className=" min-w-3xl">
+      <div className="flex gap-12 ">
+        <div className="flex lg:w-auto w-full">
+          <Carousel className=" lg:min-w-3xl w-full">
             <CarouselContent className="flex">
-              <EventsList events={events} />
+              <Suspense fallback={<EventsListSkeleton/>}>
+                <EventsList events={events} />
+              </Suspense>
             </CarouselContent>
             <CarouselPrevious className="absolute -translate-x-[50%] -left-[0%]" />
             <CarouselNext className="absolute translate-x-[50%] right-[0%]" />
           </Carousel>
-          {/* image={event.image} description={event.message} location={event.location} date={dateConvert(event.date)} title={event.title} */}
         </div>
-        <div className="relative h-[24rem] rounded-md flex-1 overflow-hidden">
+        <div className="relative h-[24rem] lg:block hidden rounded-md flex-1 overflow-hidden">
           <Image
             src={eventImg}
             alt="form illustration"
             fill
-            className="object-contain  absolute object-center brightness-105"
+            className="object-contain lg:block hidden  absolute object-center brightness-105"
           />
-          {/* <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-          <div className="absolute bottom-6 left-6 text-white">
-            <h3 className="text-xl font-semibold ">Plan Ahead</h3>
-            <p className="text-sm text-gray-200 max-w-xs">
-              Be part of every activity that shapes our community and learning
-              experience.
-            </p>
-          </div> */}
         </div>
       </div>
     </section>

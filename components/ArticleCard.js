@@ -15,7 +15,7 @@ export default async function ArticleCard({ post, type }) {
   //   const toggleLike = () => setLiked((prev) => !prev); 
   const mark = await getBookMarks(); 
   return (
-    <div className="group flex flex-col h-full relative overflow-hidden border-[1px] bg-card transition hover:-translate-y-1 duration-300">
+    <div className="group flex flex-col h-full  relative overflow-hidden border border-green-600/40 bg-card transition hover:-translate-y-1 duration-300">
       {/* Image */}
       <div className="relative h-46 w-full overflow-hidden ">
         {image && (
@@ -38,7 +38,7 @@ export default async function ArticleCard({ post, type }) {
           <div className="bg-white p-1">
             <button
               className={cn(
-                "absolute top-2 right-2 z-10 rounded-md p-1.5 bg-white/80 backdrop-blur-sm",
+                "absolute top-2 right-2 z-10 rounded-sm p-1 bg-white/80 backdrop-blur-sm",
                 "shadow-sm hover:bg-white hover:shadow-md transition-all duration-200"
               )}
             >
@@ -65,7 +65,7 @@ export default async function ArticleCard({ post, type }) {
         <p className="text-xs text-muted-foreground line-clamp-3">
           {artic?.replace(/<[^>]+>/g, "").slice(0, 150)}...
         </p>
-        <Link href={`/blogPost/${id}`} className="w-full mt-auto flex gap-2 items-center ">
+        <Link href={`/blogPost/${id}`} className="w-full mt-auto flex gap-2 items-center hover:text-green-600">
           <MoveRight /> <small>READ MORE</small>
           {/* <Button className="w-full">view Aritcle</Button> */}
         </Link>

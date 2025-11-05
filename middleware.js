@@ -45,10 +45,10 @@ export default async function middleware(request) {
 
   // 3️⃣ Check for expiration
   if (decodedToken.exp * 1000 < Date.now()) {
-    const res = NextResponse.redirect(new URL("/?msg=session_expired", request.url));
-    res.cookies.delete("firebaseAuthToken");
-    return res;
-  }
+  const res = NextResponse.redirect(new URL("/?msg=session_expired", request.url));
+  res.cookies.delete("firebaseAuthToken");
+  return res;
+}
 
   if (isAuthPage) {
     return NextResponse.redirect(new URL("/", request.url));

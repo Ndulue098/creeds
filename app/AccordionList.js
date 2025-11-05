@@ -4,8 +4,6 @@ export default function AccordionList({ data, isOpen, setIsOpen }) {
   const actve = data.id === isOpen;
 
   function handleTogle(id) {
-    console.log(id);
-
     setIsOpen(isOpen === data.id ? null : id);
   }
 
@@ -13,9 +11,9 @@ export default function AccordionList({ data, isOpen, setIsOpen }) {
    <div
   className="transition-all duration-300 ease-in-out hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-xl"
 >
-  <button
+  <div
     onClick={() => handleTogle(data.id)}
-    className="flex items-center justify-between w-full px-6 py-5 text-left cursor-pointer"
+    className="flex items-center gap-4 justify-between w-full px-6 py-5 text-left cursor-pointer"
   >
     <h3 className="text-lg font-semibold text-emerald-900 dark:text-emerald-100">
       {data.title}
@@ -28,7 +26,7 @@ export default function AccordionList({ data, isOpen, setIsOpen }) {
     >
       <PlusCircle className="w-6 h-6" />
     </span>
-  </button>
+  </div>
 
   {/* Content */}
   <div
