@@ -29,11 +29,14 @@ export default async function page({ params }) {
   const post = await getPost(postId);
 
   //! getting the auth token, verifying it and getting the uid 
-  const cookiesStore = await cookies();
-  const token = cookiesStore.get("firebaseAuthToken")?.value;
-  const verified=await auth.verifyIdToken(token)
+    const cookiesStore = await cookies();
+  const token = cookiesStore?.get("firebaseAuthToken")?.value;
+  let like;
+  if (!!token){
+    const verified=await auth.verifyIdToken(token)
+    like = await getLike(postId, verified?.uid);
+  }
   
-  const like = await getLike(postId, verified?.uid);
 
   const datefn = formatDate(post?.updatedAt);
   const datecon = dateConvert(post.createdAt);

@@ -5,6 +5,7 @@ import { toggleLike } from "./action";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function ToggleLike({ postId,isLiked }) {
   const authContext = useAuthContext();
@@ -13,8 +14,14 @@ export default function ToggleLike({ postId,isLiked }) {
   const route=useRouter()
     
   async function handleToggleLike() {
-    const token = await authContext.currentUser.getIdToken();
-    if (!token) return;
+    const token = await authContext.currentUser?.getIdToken();
+    if (!token) {
+      toast.error("Error!", {
+        description:"Login to like a post",
+      });
+    };
+    console.log("like clicked");
+    
     const result = await toggleLike(token, postId);
     setLiked(result.liked);
     route.refresh()
