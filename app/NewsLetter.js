@@ -6,7 +6,6 @@ import { motion } from "motion/react";
 export default function NewsLetter() {
   return (
  <section className="max-w-6xl mx-auto my-20 grid grid-cols-1 md:grid-cols-[55fr_45fr] lg:gap-10 gap-5 items-stretch px-6
- xl:bg-red-600 lg:bg-red-400 md:bg-blue-400 sm:bg-red-200
  ">
   {/* Left Section */}
   <motion.div
