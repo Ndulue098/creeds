@@ -77,7 +77,7 @@ export default async function page({ params }) {
         </h1>
 
         {/* Meta Info */}
-        <div className="flex justify-between text-muted-foreground mb-8 border-b border-border pb-3">
+        <div className="flex md:flex-row flex-col  gap-2 justify-between text-muted-foreground mb-8 border-b border-border pb-3">
           <div className="flex gap-3 items-center text-sm">
             <BadgeCategory label={post.category} />
             <span>
@@ -87,7 +87,7 @@ export default async function page({ params }) {
             <span>• {formattedCreated}</span>
             {formattedUpdated && <span>• Updated {formattedUpdated}</span>}
           </div>
-          <div className="flex items-center text-sm gap-5 ">
+          <div className="flex items-center text-sm sm:gap-5 gap-3 ml-auto ">
             {/* <Heart size={17} strokeWidth={1.5} /> */}
             <div className="flex gap-2 items-center justify-center">
               <ToggleLike postId={postId} isLiked={like?.liked} />

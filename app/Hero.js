@@ -52,9 +52,11 @@ export default function Hero() {
       <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,rgba(0,100,0,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,100,0,0.15)_1px,transparent_1px)] bg-[size:40px_40px]" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl px-4 grid lg:grid-cols-2 lg:grid-rows-none grid-rows-2 gap-10 items-center
+      <div
+        className="relative z-10 max-w-7xl px-4 grid lg:grid-cols-2 lg:grid-rows-none grid-rows-2 gap-10 items-center
         md:px-6
-      xl:bg-red-600 lg:bg-red-400 md:bg-blue-400 sm:bg-red-200">
+      "
+      >
         {/* Left - Text */}
         <div className="lg:text-start text-center">
           <h1 className="lg:text-5xl text-4xl font-bold lg:mb-6 mb-3  leading-tight">
@@ -62,7 +64,9 @@ export default function Hero() {
               Beyond Bricks and Beams.
             </span>
             <span className="text-green-600 font-semibold">
-              We Build Ideas,<br/> Stories,<br/> and Futures.
+              We Build Ideas,
+              <br /> Stories,
+              <br /> and Futures.
             </span>
           </h1>
 
@@ -74,14 +78,14 @@ export default function Hero() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex gap-4 justify-center lg:justify-start ">
+          <div className="flex sm:gap-4 gap-2 justify-center lg:justify-start ">
             <Link href={"/blog-posts"}>
-              <button className="px-6 py-3  bg-green-600 hover:bg-green-500 text-white font-semibold rounded-full transition-all duration-300 shadow-md">
+              <button className="sm:px-6 px-4 sm:py-3 py-2 text-sm sm:text-base bg-green-600 hover:bg-green-500 text-white font-semibold rounded-full transition-all duration-300 shadow-md">
                 View Articles
               </button>
             </Link>
             <Link href={"/#announcement"}>
-              <button className="px-6 py-3 border border-green-600 text-green-600 hover:bg-green-50 rounded-full transition-all duration-300">
+              <button className="sm:px-6 px-4 sm:py-3 py-2 border text-sm sm:text-base border-green-600 text-green-600 hover:bg-green-50 rounded-full transition-all duration-300">
                 See Announcements
               </button>
             </Link>

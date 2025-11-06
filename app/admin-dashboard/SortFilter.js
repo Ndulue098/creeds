@@ -29,9 +29,8 @@ export default function SortFilter() {
 
 
   return (
-    <div className="flex ml-auto  gap-4 text-sm">
+    <div className="flex ml-auto gap-4 text-sm ">
       <div>
-        
         <p className="tracking-widest text-xs uppercase font-medium mb-2 text-gray-500">
       Sort By
     </p>
@@ -64,7 +63,7 @@ export default function SortFilter() {
     </p>
         
         <Select value={currentFilter} onValueChange={(val) => setParam("status", val)}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="sm:w-[180px] w-[110px]">
             <SelectValue placeholder="Category" />
         </SelectTrigger>
         <SelectContent>

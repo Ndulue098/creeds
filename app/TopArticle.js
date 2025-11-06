@@ -6,9 +6,9 @@ import Link from "next/link";
 export default function TopArticle({post}) {
       const { title, artic, category, createdAt, image, id } = post;
 
-    return <div className="grid sm:grid-cols-2 sm:grid-rows-none grid-rows-[60fr_40fr] mb-6 gap-6">
+    return <div className="grid sm:grid-cols-2 sm:grid-rows-none grid-rows-[auto] mb-6 gap-6">
         {/* up */}
-            <div className="relative h-[24rem] w-full overflow-hidden ">
+            <div className="relative sm:h-[24rem] h-[18rem] w-full overflow-hidden ">
         {image && (
           <Image
             src={image || null}

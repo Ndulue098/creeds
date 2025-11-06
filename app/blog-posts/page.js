@@ -12,7 +12,8 @@ export default async function page({ searchParams }) {
 
   return (
     <div className="max-w-7xl mx-auto mt-5 w-full py-4 pb-6">
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex md:items-center justify-between mb-5 gap-6 px-4 md:flex-row flex-col 
+      ">
         <div>
           <h1 className="text-5xl mb-3">
             <span className="font-medium">The </span>
@@ -27,7 +28,10 @@ export default async function page({ searchParams }) {
           </div>
         </div>
         <Suspense>
+          <div className="md:mt-auto ml-auto">
+            
           <SortFilter />
+          </div>
         </Suspense>
       </div>
 

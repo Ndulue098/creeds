@@ -5,10 +5,8 @@ import { getPostByIds } from "@/data/postData";
 export default async function page() {
   const mark = await getBookMarks();
   const postIds = Object.keys(mark);
-  console.log(postIds);
 
   const markedPost = await getPostByIds(postIds);
-  console.log(markedPost);
 
   return (
     <div className="max-w-6xl mx-auto flex flex-col gap-10 ">

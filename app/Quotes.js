@@ -102,7 +102,7 @@ export default function Quote({
   }, [index]);
   // transform skew-2
   return (
-    <section className="relative bg-gradient-to-r max-w-5xl mx-auto lg:rounded-lg transform transition-all duration-500 hover:skew-x-6 from-green-950 to-black  my-24 text-center lg:py-14 py-12 lg:px-6 px-4 text-gray-200 overflow-hidden
+    <section className="relative bg-gradient-to-r max-w-5xl mx-auto lg:rounded-lg transform transition-all duration-500  from-green-950 to-black  my-24 text-center lg:py-14 py-12 lg:px-6 px-4 text-gray-200 overflow-hidden
        xl:bg-red-600 lg:bg-red-400 md:bg-blue-400 sm:bg-red-200
     ">
       {/* Brick pattern overlay */}
@@ -112,7 +112,7 @@ export default function Quote({
         {/* Side accent bar */}
         {/* <div className="w-1.5 h-20 bg-green-500 mb-5 rounded-full"></div> */}
 
-        <div className="flex items-center gap-3 w-full">
+        <div className="flex items-center gap-3 w-full mb-2">
           <QuoteIcon
             size={48}
             strokeWidth={1}

@@ -24,7 +24,7 @@ export default function AnnouncementCard({ top, val, topAnnounce }) {
       <div
         onClick={top}
         className={cn(
-          "flex items-center w-full flex-row-reverse border-[1px] rounded-md overflow-hidden",
+          "flex items-center w-full flex-row-reverse border-[1px] rounded-md ",
           active ? "border-green-600" : "bg-white"
         )}
       >
@@ -43,7 +43,7 @@ export default function AnnouncementCard({ top, val, topAnnounce }) {
             <p className="text-sm">{datefn(val.createdAt)}</p>
           </div>
           <p className="text-sm text-gray-600 mt-1">
-            {val.message.slice(0, 100)}...
+            {val.message.slice(0, 80)}...
           </p>
         </div>
       </div>

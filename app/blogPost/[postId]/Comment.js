@@ -47,12 +47,12 @@ export default function Comment({ postId }) {
 
   return (
     <section className="max-w-4xl w-full mx-auto mt-16 border-t border-border pt-10">
-      <h2 className="text-2xl font-semibold mb-6">Leave a Comment</h2>
+      <h2 className="text-2xl font-semibold mb-6 px-2">Leave a Comment</h2>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(submitComment)}
-          className="space-y-5 bg-muted/30 p-6 rounded-xl shadow-sm"
+          className="space-y-5 bg-muted/30 p-6 px-2 rounded-xl shadow-sm"
         >
           <fieldset disabled={form.formState.isSubmitting || !UserName}>
             <FormField
@@ -99,7 +99,7 @@ export default function Comment({ postId }) {
                     </AvatarFallback>
                   </Avatar>
                 )}
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-muted-foreground break-words ">
                   {UserName?`Commenting as ${UserName}`:"Login to comment"}
                 </span>
               </div>

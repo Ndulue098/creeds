@@ -14,7 +14,7 @@ export default async function ArticleCards({
   const option = {
     pagination: {
       page,
-      pageSize: 20,
+      pageSize: 20, 
     },
     filter: {
       status,
@@ -25,7 +25,7 @@ export default async function ArticleCards({
   console.log(posts);
 
   return (
-    <div className="max-w-7xl mx-auto ">
+    <div className="sm:max-w-7xl mx-auto sm:px-6 px-2 max-w-[24rem]">
       <div className="grid  sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {posts.map((post) => (
           <ArticleCard key={post.id} post={post} />
