@@ -40,7 +40,7 @@ export default async function page({ searchParams }) {
 
       <div className="flex justify-between gap-4 items-end">
         <PostBtn />
-        <Suspense>
+        <Suspense fallback={<div>loading...</div>}>
           <SortFilter />
         </Suspense>
       </div>

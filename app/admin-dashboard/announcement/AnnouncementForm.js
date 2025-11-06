@@ -29,7 +29,7 @@ export default function AnnouncementForm({defaultval,label,onEdit}){
     defaultValues: {
       title: "",
       message: "",
-      image: null,
+      image: null, 
       ...{title,message,image}
     },
   });

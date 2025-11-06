@@ -27,7 +27,7 @@ export default async function page({ searchParams }) {
             </p>
           </div>
         </div>
-        <Suspense>
+        <Suspense fallback={<div>loading...</div>}>
           <div className="md:mt-auto ml-auto">
             
           <SortFilter />
@@ -44,5 +44,5 @@ export default async function page({ searchParams }) {
         />
       </Suspense>
     </div>
-  );
+  ); 
 }
