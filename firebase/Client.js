@@ -3,29 +3,16 @@ import { initializeApp,getApps } from "firebase/app";
 import {getStorage} from "firebase/storage";
 import {getAuth} from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// const firebaseConfig = {
-//     apiKey: "AIzaSyBQpaVprBN9GgYlug7Nt8jBgKMDoiX5jjk",
-//     authDomain: "fesablog-750f6.firebaseapp.com",
-//     projectId: "fesablog-750f6",
-//     storageBucket: "fesablog-750f6.firebasestorage.app",
-//     messagingSenderId: "708523911386",
-//     appId: "1:708523911386:web:5aa02d2856c77d616a1de3"
-// };
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDnuvgOFPv5FbwKt0IHp1HlOFSlHmXdkrk",
-  authDomain: "fesablog-1e56b.firebaseapp.com",
-  projectId: "fesablog-1e56b",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
   storageBucket: "fesablog-1e56b.firebasestorage.app",
   messagingSenderId: "221571399005",
   appId: "1:221571399005:web:1de5474f0084c971127cb4"
 };
 
-// Initialize Firebase
-//
 const currentApp= getApps()
 let auth;
 let storage;
@@ -43,7 +30,3 @@ if (!currentApp.length){
 export { auth, storage };
 
 
-
-// 
-
-// Import the functions you need from the SDKs you need
