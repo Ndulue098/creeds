@@ -19,6 +19,12 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+    rules:{
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "react/jsx-no-undef": "error", // Optional, helps detect missing imports
+      "react/react-in-jsx-scope": "off",
+    }
   },
 ];
 
