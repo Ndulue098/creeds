@@ -16,10 +16,10 @@ import { Button } from "@/components/ui/button";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
-import TextStyle from "@tiptap/extension-text-style";
+import { TextStyle } from "@tiptap/extension-text-style";
 import Image from "@tiptap/extension-image";
-import FontFamily from "@tiptap/extension-font-family";
-import FontSize from "tiptap-extension-font-size";
+import {FontFamily} from "@tiptap/extension-font-family";
+import {FontSize} from "tiptap-extension-font-size";
 import Heading from "@tiptap/extension-heading";
 
 import {
