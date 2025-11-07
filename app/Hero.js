@@ -47,7 +47,7 @@ export default function Hero() {
       </div>
     </section> */
 
-    <section className="relative min-h-screen mt-7 lg:mt-0 flex flex-col justify-center items-center text-gray-900 overflow-hidden bg-gradient-to-b from-green-50 via-white to-green-100">
+    <section className="relative min-h-screen  top-0 lg:mt-0 flex flex-col justify-center items-center text-gray-900 overflow-hidden bg-gradient-to-b from-green-50 via-white to-green-100">
       {/* Subtle grid lines */}
       <div className="absolute inset-0 opacity-30 bg-[linear-gradient(to_right,rgba(0,100,0,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,100,0,0.15)_1px,transparent_1px)] bg-[size:40px_40px]" />
 
@@ -58,7 +58,7 @@ export default function Hero() {
       "
       >
         {/* Left - Text */}
-        <div className="lg:text-start text-center">
+        <div className="lg:text-start text-center md:mt-0 mt-4">
           <h1 className="lg:text-5xl text-4xl font-bold lg:mb-6 mb-3  leading-tight">
             <span className="text-2xl block text-gray-600 mb-2">
               Beyond Bricks and Beams.
