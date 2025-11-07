@@ -114,7 +114,7 @@ export default function Nav() {
             >
               <SheetHeader>
                 <SheetTitle
-                  className="text-green-800 mt-3 py-5 flex px-3 border-y border-green-300/60  font-bold text-lg items-center
+                  className="text-green-800 md:mt-3 mt-0 py-4 flex px-3 border-y border-green-300/60  font-bold text-lg items-center
                  gap-2  tracking-wide  hover:text-green-600 transition bg-green-100/80
                 "
                 >
