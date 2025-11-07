@@ -60,7 +60,7 @@ export default async function page({ params }) {
 
   return (
     <>
-      <article className="mx-auto w-full max-w-4xl px-4 py-8 mt-2">
+      <article className="mx-auto w-full max-w-4xl px-4 py-8 sm:py-3 mt-2">
         {/* Blog Image */}
         {post.imageUrl && (
           <div className="relative aspect-video w-full mb-8 overflow-hidden rounded-2xl shadow-lg">
