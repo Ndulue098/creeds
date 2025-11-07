@@ -53,7 +53,7 @@ export default function Nav() {
     //  from-green-700 to-emerald-600 backdrop-blur-md
 
     <nav
-      className={`${pathname === "/" ? "fixed" : ""} top-0 left-0 w-full z-50`}
+      className={`absolute top-0 left-0 w-full z-50 `}
     >
       <div
         className={`${

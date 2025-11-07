@@ -1,7 +1,7 @@
 import BadgeCategory from "@/components/BadgeCategory";
 import { Building2Icon, MoveRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "next/link"; 
 
 export default function TopArticle({post}) {
       const { title, artic, category, createdAt, image, id } = post;
@@ -46,7 +46,7 @@ export default function TopArticle({post}) {
             {artic?.replace(/<[^>]+>/g, "").slice(0, 300)}...
             </p>
             {/* !!!up */}
-            <Link href={`/blogPost/${id}`} className="w-full mt-6 flex gap-2 items-center ">
+            <Link href={`/blogPost/${id}`} className="w-full mt-6 flex hover:text-green-600 gap-2 items-center ">
             <MoveRight /> <small>READ MORE</small>
             {/* <Button className="w-full">view Aritcle</Button> */}
             </Link>

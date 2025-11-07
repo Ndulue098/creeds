@@ -23,7 +23,7 @@ export default async function Article() {
           Latest Article
         </h2>
         <Link href={"/blog-posts"}>
-          <small className="flex items-center gap-2 mt-2">
+          <small className="flex items-center gap-2 hover:text-green-600 mt-2">
             VIEW ALL <MoveRightIcon />
           </small>
         </Link>

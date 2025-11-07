@@ -43,11 +43,11 @@ export default function Login({onSuccess}) {
 
   return (
     <Form {...form}>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col sm:gap-3 gap-2">
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <fieldset
             disabled={form.formState.isSubmitting}
-            className="flex gap-5 flex-col"
+            className="flex sm:gap-5 gap-3 flex-col"
           >
             <FormField
               name="password"
@@ -80,7 +80,7 @@ export default function Login({onSuccess}) {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="cursor-pointer">
+            <Button type="submit" className="cursor-pointer font-semibold tracking-widest">
               Login
             </Button>
             <div className="text-center text-sm text-muted-foreground gap-4 flex items-center justify-center">
