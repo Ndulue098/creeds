@@ -58,7 +58,7 @@ export default function Nav() {
       <div
         className={`${
           pathname === "/" && "shadow-[0_4px_20px_rgba(0,0,0,0.1)]"
-        } max-w-[90rem] mx-auto md:px-6 px-3 py-4 mt-3 flex items-center justify-between
+        } max-w-[90rem] mx-auto md:px-6 px-3 sm:py-4 py-3 md:mt-3 mt-1.5 flex items-center justify-between
         bg-green-100/80 border border-green-300/60 md:rounded-lg text-green-900 transition-all`}
       >
         {/* Logo */}

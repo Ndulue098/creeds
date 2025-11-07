@@ -53,14 +53,14 @@ export default function Hero() {
 
       {/* Content */}
       <div
-        className="relative z-10 max-w-7xl px-4 grid lg:grid-cols-2 lg:grid-rows-none grid-rows-2 gap-10 items-center
+        className="relative z-10 max-w-7xl px-4 sm:mt-0 mt-6 grid lg:grid-cols-2 lg:grid-rows-none grid-rows-2 md:gap-10 gap-5 items-center
         md:px-6
       "
       >
         {/* Left - Text */}
         <div className="lg:text-start text-center md:mt-0 mt-4">
           <h1 className="lg:text-5xl text-4xl font-bold lg:mb-6 mb-3  leading-tight">
-            <span className="text-2xl block text-gray-600 mb-2">
+            <span className="text-2xl block text-gray-600 sm:mb-2 mb-0">
               Beyond Bricks and Beams.
             </span>
             <span className="text-green-600 font-semibold">
