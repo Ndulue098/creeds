@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-// import LoginValidate from "./action";
+import LoginValidate from "./action";
 
 export default function LoginWithModal() {
   const router = useRouter();
@@ -29,8 +29,9 @@ export default function LoginWithModal() {
         </DialogHeader>
         <div>
           <Login
+            link={"/blog-post"}
             onSucces={async () => {
-              // await LoginValidate();
+              await LoginValidate();
               router.back();
             }}
           /> 

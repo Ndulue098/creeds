@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-export default function Login({onSuccess}) {
+export default function Login({onSuccess,link}) {
   const authContext = useAuthContext();
 //   const router = useRouter();
   const form = useForm({
@@ -90,7 +90,7 @@ export default function Login({onSuccess}) {
             </div>
           </fieldset>
         </form>
-        <ContinueWithGoogleBtn />
+        <ContinueWithGoogleBtn link={link}/>
       </div>
     </Form>
   );
