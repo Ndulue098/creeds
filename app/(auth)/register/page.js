@@ -3,6 +3,9 @@ import RegisterForm from "./RegisterForm";
 import formSvg from "@/public/form2.svg";
 import Link from "next/link";
 
+export const metadata={
+  title:"Register"
+}
 
 export default function page() {
   return (

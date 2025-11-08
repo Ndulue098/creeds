@@ -13,6 +13,10 @@ import Image from "next/image";
 import formSvg from "@/public/login2.svg";
 import { HardHatIcon } from "lucide-react";
 
+export const metadata={
+  title:"Login"
+}
+
 export default function page() {
   return (
     <Card

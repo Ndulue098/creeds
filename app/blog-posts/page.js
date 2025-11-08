@@ -4,6 +4,10 @@ import { Suspense } from "react";
 import SortFilter from "../admin-dashboard/SortFilter";
 import ArticleCards from "./ArticleCards";
 
+export const metadata={
+  title:"Articles"
+}
+
 export default async function page({ searchParams }) {
   const searchParamsVal = await searchParams;
   const pageInt = parseInt(searchParamsVal.page);

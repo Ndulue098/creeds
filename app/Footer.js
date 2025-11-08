@@ -7,6 +7,8 @@ import {
   Phone,
   Mail,
   MapPin,
+  Github,
+  Linkedin,
 } from "lucide-react";
 
 export default function Footer() {
@@ -38,26 +40,26 @@ export default function Footer() {
             </li>
             <li>
               <Link
-                href="/projects"
+                href="/#announcement"
                 className="hover:text-green-400 transition-colors"
               >
-                Projects
+                Announcement
               </Link>
             </li>
             <li>
               <Link
-                href="/about"
+                href="/blog-posts"
                 className="hover:text-green-400 transition-colors"
               >
-                About Us
+                Article
               </Link>
             </li>
             <li>
               <Link
-                href="/contact"
+                href="/#event"
                 className="hover:text-green-400 transition-colors"
               >
-                Contact
+                Event
               </Link>
             </li>
           </ul>
@@ -69,11 +71,11 @@ export default function Footer() {
           <ul className="space-y-3 text-sm ">
             <li className="flex items-center justify-center md:justify-start  gap-2">
               <Phone size={16} className="text-green-400" />
-              <span>+234 000 0000 000</span>
+              <span>+234 814 324 1605</span>
             </li>
             <li className="flex items-center justify-center md:justify-start gap-2">
               <Mail size={16} className="text-green-400" />
-              <span>support@creedsbuild.com</span>
+              <span>christianndulue47@gmail.com</span>
             </li>
             <li className="flex items-center justify-center md:justify-start gap-2">
               <MapPin size={16} className="text-green-400" />
@@ -87,19 +89,22 @@ export default function Footer() {
           <h3 className="font-semibold text-lg text-white mb-3">Follow Us</h3>
           <div className="flex gap-4 mt-2 justify-center md:justify-start">
             <Link
-              href="#"
+              href="https://www.linkedin.com/"
+              target="_blank"
               className="hover:text-green-400 transition-transform hover:scale-110"
             >
-              <Facebook className="w-5 h-5" />
+              <Linkedin className="w-5 h-5" />
             </Link>
             <Link
-              href="#"
+              href="https://github.com/Ndulue098"
+              target="_blank"
               className="hover:text-green-400 transition-transform hover:scale-110"
             >
-              <Instagram className="w-5 h-5" />
+              <Github className="w-5 h-5" />
             </Link>
             <Link
-              href="#"
+              href="https://x.com/Ndulue47"
+              target="_blank"
               className="hover:text-green-400 transition-transform hover:scale-110"
             >
               <Twitter className="w-5 h-5" />

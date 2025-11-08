@@ -19,11 +19,11 @@ import rehypeSanitize from "rehype-sanitize";
 import { cookies } from "next/headers";
 import { auth } from "@/firebase/Server";
 
-const turndownService = new TurndownService();
-
-function convertToMarkdown(htmlString) {
-  return turndownService.turndown(htmlString);
+export const metadata={
+  title:"Article"
 }
+
+
 export default async function page({ params }) {
   const { postId } = await params;
   const post = await getPost(postId);
@@ -36,10 +36,11 @@ export default async function page({ params }) {
     const verified=await auth.verifyIdToken(token)
     like = await getLike(postId, verified?.uid);
   }
+
   
 
-  const datefn = formatDate(post?.updatedAt);
-  const datecon = dateConvert(post.createdAt);
+  // const datefn = formatDate(post?.updatedAt);
+  // const datecon = dateConvert(post.createdAt);
 
 
   //    console.log("Markdown",convertToMarkdown(post.htmlString));
@@ -52,7 +53,6 @@ export default async function page({ params }) {
     : null;
 
   const marked = await getBookMarkById(postId);
-  console.log("marked", marked);
   const { isBookmarked } = marked || {};
 
   // likes
