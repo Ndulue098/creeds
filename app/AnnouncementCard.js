@@ -24,7 +24,7 @@ export default function AnnouncementCard({ top, val, topAnnounce }) {
       <div
         onClick={top}
         className={cn(
-          "flex items-center w-full flex-row-reverse border-[1px] rounded-md ",
+          "flex items-center w-full flex-row-reverse border-[1px] hover:border-green-400 overflow-hidden rounded-md ",
           active ? "border-green-600" : "bg-white"
         )}
       >
