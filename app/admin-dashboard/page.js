@@ -18,9 +18,7 @@ export default async function page({ searchParams }) {
   const page = isNaN(parsedPage) ? 1 : parsedPage;
 
   const { sort, status } = searchParamsVal;
-  // {sort: 'asc', status: 'career'}
-  console.log(page);
-  console.log("searchparams", searchParamsVal);
+ 
 
   const items = [{ label: "dashboard" }];
 

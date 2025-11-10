@@ -118,25 +118,3 @@ export default async function PostCard({page,sort,status,searchParamsVal}) {
     </>
   );
 }
-/* 
-
-article
-: 
-"<p>testing 123412121,,,ewjenfqjenkqekdfnsf</p>\n<p>wejdfksdjkwjrnkfnwrkjfj</p>"
-author
-: 
-"Ndulue Christian"
-category
-: 
-"design"
-createdAt
-: 
-"2025-09-28T21:35:30.248Z"
-id
-: 
-"2pK31YRW0jZaLiVI22L0"
-title
-: 
-"hello this is a test"
-
-*/

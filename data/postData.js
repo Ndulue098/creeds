@@ -7,9 +7,6 @@ export async function getPosts(option) {
   const { pagination, filter, sort = "desc" } = option || {};
   const { page, pageSize = 5 } = pagination || {};
   const { status } = filter || {};
-  console.log("ps", status);
-
-  console.log("sort--", sort);
 
   // let snapShot = firestore.collection("posts").orderBy("createdAt", "desc");
   let snapShot = firestore.collection("posts");

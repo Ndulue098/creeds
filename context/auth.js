@@ -15,41 +15,7 @@ function AuthProviderContext({ children }) {
   const [currentUser, setCurrrentUser] = useState("");
   const [customClaims, setCustomClaims] = useState(null);
   const router = useRouter();
- /*  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      setCurrrentUser(user ?? null);
-
-      if (user) {
-        const tokenResult = await user.getIdTokenResult(true);
-        // auth token
-        const token = tokenResult.token;
-        const claims = tokenResult.claims;
-        console.log("claims---", claims);
-
-        // for refresh token
-        const refreshToken = user.refreshToken;
-
-        setCustomClaims(claims ?? null);
-        if (token && refreshToken) {
-          await setToken({ token,});
-        //   await setToken({ token, refreshToken });
-        }
-
-        const interval = setInterval(async () => {
-          const user = auth.currentUser;
-          if (user) await user.getIdToken(true);
-        }, 30 * 60 * 1000);
-
-      } else {
-        await removeToken();
-      }
-    });
-
-    return () => {
-      unsubscribe();
-      clearInterval(interval);
-    };
-  }, []); */
+ 
   useEffect(() => {
   const unsubscribe = auth.onIdTokenChanged(async (user) => {
     if (!user) {
@@ -60,15 +26,18 @@ function AuthProviderContext({ children }) {
     }
 
     // Fetch the latest token (Firebase auto refreshes if expired)
-    const token = await user.getIdToken();
+    const token = await user.getIdToken();  
+    const {newClaimAdded}=await setToken({ token });
+    if (newClaimAdded){
+      await user.getIdToken(true)
+    }
     const tokenResult = await user.getIdTokenResult();
     const claims = tokenResult.claims;
 
     setCurrrentUser(user);
-    setCustomClaims(claims ?? null);
+    setCustomClaims(claims ?? null); 
 
     // Send token to server to sync cookies
-    await setToken({ token });
   });
 
   return () => unsubscribe();

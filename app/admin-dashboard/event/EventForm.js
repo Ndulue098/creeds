@@ -61,8 +61,7 @@ export default function EventForm({onEdit,label,defaultval}) {
     const response = await addEvent(token, { ...data, author });
     if (!response?.success) return;
 
-    console.log(response.id);
-    console.log(response);
+
     if (response?.error) {
       toast.error("Error!", {
         description: response.message,

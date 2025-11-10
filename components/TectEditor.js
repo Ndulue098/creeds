@@ -66,7 +66,7 @@ export default function ArticleForm({ onSave, defaultVal = {} }) {
     onUpdate: ({ editor }) => {
       form.setValue("heading", editor.getHTML());
     },
-    immediatelyRender: false, // Important for Next.js
+    immediatelyRender: false, 
   });
 
   // ------------------

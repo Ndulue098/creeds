@@ -18,7 +18,6 @@ export default function AdminEditor() {
   const category = searchParams.get("category") || "design";
 
   async function onSave(data) {
-    console.log("post data", data);
     const token = await authContext.currentUser?.getIdToken();
     if (!token) return;
     const author = await authContext.currentUser?.displayName;
@@ -29,7 +28,6 @@ export default function AdminEditor() {
       author,
     };
 
-    console.log(postData);
 
     const response = await createPost(token, postData);
 

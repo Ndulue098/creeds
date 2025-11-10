@@ -12,18 +12,29 @@ export async function setToken({ token, refreshToken }) {
         
     const userRecord = await auth.getUser(verifiedToken.uid);
     // const userRecord=await auth.getUser(verifiedToken.uid)
+    let newClaimAdded=false
 
     console.log("userRecord--", userRecord);
+    const adminEmails=process.env.ADMIN_EMAIL?.split(",").map((e)=>e.trim())||[]
+    const userEmail=userRecord.email 
 
-    // setting custom claim
-    if (
-      process.env.ADMIN_EMAIL === userRecord.email &&
-      !userRecord.customClaims?.admin
-    ) {
-     await auth.setCustomUserClaims(verifiedToken.uid, {
+    if(adminEmails.includes(userEmail)&&!userRecord.customClaims?.admin){
+      await auth.setCustomUserClaims(verifiedToken.uid, {
         admin: true,
       });
+      newClaimAdded = true;
     }
+    // !old
+    // if (
+    //   process.env.ADMIN_EMAIL === userRecord.email &&
+    //   !userRecord.customClaims?.admin
+    // ) {
+    //  await auth.setCustomUserClaims(verifiedToken.uid, {
+    //     admin: true,
+    //   });
+    // }
+    
+
     // !
     if (expiresIn <= 0) return; 
     // setting the cookies
@@ -35,6 +46,8 @@ export async function setToken({ token, refreshToken }) {
       sameSite:"lax"
        //  maxAge: 3600
     });
+
+    return {newClaimAdded}
     // cookiesStore.set("firebaseAuthToken", token, {
     //   httpOnly: true,
     //   secure: process.env.NODE_ENV === "production",

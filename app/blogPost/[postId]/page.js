@@ -19,29 +19,25 @@ import rehypeSanitize from "rehype-sanitize";
 import { cookies } from "next/headers";
 import { auth } from "@/firebase/Server";
 
-export const metadata={
-  title:"Article"
-}
-
+export const metadata = {
+  title: "Article",
+};
 
 export default async function page({ params }) {
   const { postId } = await params;
   const post = await getPost(postId);
 
-  //! getting the auth token, verifying it and getting the uid 
-    const cookiesStore = await cookies();
+  //! getting the auth token, verifying it and getting the uid
+  const cookiesStore = await cookies();
   const token = cookiesStore?.get("firebaseAuthToken")?.value;
   let like;
-  if (!!token){
-    const verified=await auth.verifyIdToken(token)
+  if (!!token) {
+    const verified = await auth.verifyIdToken(token);
     like = await getLike(postId, verified?.uid);
   }
 
-  
-
   // const datefn = formatDate(post?.updatedAt);
   // const datecon = dateConvert(post.createdAt);
-
 
   //    console.log("Markdown",convertToMarkdown(post.htmlString));
   // ! data formatter
@@ -62,10 +58,10 @@ export default async function page({ params }) {
     <>
       <article className="mx-auto w-full max-w-4xl px-4 py-8 sm:py-3 mt-2">
         {/* Blog Image */}
-        {post.imageUrl && (
-          <div className="relative aspect-video w-full mb-8 overflow-hidden rounded-2xl shadow-lg">
+        {post?.image && (
+          <div className="relative  min-h-[24rem] w-full mb-8 overflow-hidden rounded-xl shadow-lg">
             <Image
-              src={post.imageUrl}
+              src={post.image}
               alt={post.title}
               fill
               className="object-cover"
@@ -102,7 +98,7 @@ export default async function page({ params }) {
             <ToggleBookmark postId={postId} marked={isBookmarked} />
           </div>
         </div>
- 
+
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeRaw, rehypeSanitize]}

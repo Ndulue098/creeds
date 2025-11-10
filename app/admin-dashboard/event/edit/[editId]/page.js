@@ -6,21 +6,6 @@ import EventForm from "../../EventForm";
 export default async function page({ params }) {
   const { editId } = await params;
   const data= await getEventId(editId);
-//   const { author, date, image, location, message, title } = await getEventId(
-//     editId
-//   );
-  console.log(editId);
-
-//   const data = {
-//     author,
-//     date,
-//     image,
-//     location,
-//     message,
-//     title,
-//   };
-
-  console.log(data);
 
   const items = [
     { label: "Dashboard", href: "/admin-dashboard" },

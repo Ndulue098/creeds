@@ -43,7 +43,6 @@ export default function EditPost({ post }) {
 
     console.log("edit--", image);
     if (image && typeof image == "object" && image.file) {
-      console.log("image is obj");
 
       const path = `posts/${post.id}/${Date.now()}-${image.file.name}`;
       const storageRef = ref(storage, path);
@@ -55,7 +54,6 @@ export default function EditPost({ post }) {
       });
 
       const downloadURL = await getDownloadURL(storageRef);
-      console.log(downloadURL);
       await saveImage({ postId: post.id, image: downloadURL }, token);
     }
 

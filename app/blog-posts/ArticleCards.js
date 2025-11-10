@@ -22,7 +22,6 @@ export default async function ArticleCards({
     sort,
   };
   const { posts, totalPage } = await getPosts(option);
-  console.log(posts);
 
   return (
     <div className="sm:max-w-7xl mx-auto sm:px-6 px-2 max-w-[24rem]">

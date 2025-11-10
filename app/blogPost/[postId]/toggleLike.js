@@ -20,7 +20,6 @@ export default function ToggleLike({ postId,isLiked }) {
         description:"Login to like a post",
       });
     };
-    console.log("like clicked");
     
     const result = await toggleLike(token, postId);
     setLiked(result.liked);

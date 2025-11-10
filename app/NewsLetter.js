@@ -38,7 +38,7 @@ export default function NewsLetter() {
       Sign Up for Our Newsletter
     </h2>
 
-    <form className="flex flex-col lg:flex-row gap-3">
+    <form className="flex flex-col lg:flex-row gap-3" onSubmit={(e)=>e.preventDefault()}>
       <Input
         type="email"
         placeholder="Enter your email"
@@ -46,6 +46,7 @@ export default function NewsLetter() {
       />
       <Button
         type="submit"
+        
         className="bg-green-900 hover:bg-green-800 text-white rounded-full px-6"
       >
         Subscribe

@@ -3,11 +3,7 @@
 import { auth, firestore } from "@/firebase/Server"
 
 export async function updatePost(data,token){
-    const {id,...res}=data
-    console.log(data);
-    
-    console.log(res);
-    
+    const {id,...res}=data    
     const verifiedToken=await auth.verifyIdToken(token)
     if(!verifiedToken){
         return{
