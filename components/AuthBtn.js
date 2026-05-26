@@ -59,7 +59,7 @@ export default function AuthBtn() {
         }
 
         {!authContext?.currentUser &&
-            <div className="flex gap-2 items-center ">
+            <div className="flex gap-2 items-center text-white/50  ">
             <Link className=" uppercase tracking-widest hover:underline underline-offset-2" href="/login">Login</Link>
             <div className="bg-white/50 h-8 w-[1px]"/>
             <Link className=" uppercase tracking-widest hover:underline underline-offset-2" href="/register">Signup</Link>
