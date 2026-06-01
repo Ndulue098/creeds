@@ -103,7 +103,7 @@ export default function Quote({
   // transform skew-2
   return (
     <section className="relative bg-gradient-to-r max-w-5xl mx-auto lg:rounded-lg transform transition-all duration-500  from-green-950 to-black  my-24 text-center lg:py-14 py-12 lg:px-6 px-4 text-gray-200 overflow-hidden
-       xl:bg-red-600 lg:bg-red-400 md:bg-blue-400 sm:bg-red-200
+      
     ">
       {/* Brick pattern overlay */}
       {/* <div className="absolute inset-0 opacity-10 bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:60px_30px]" /> */}

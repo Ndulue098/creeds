@@ -14,9 +14,34 @@ import {
 } from "@/components/ui/sheet";
 
 import { Button } from "./ui/button";
+import { useEffect, useState } from "react";
 
 export default function Nav() {
   const pathname = usePathname();
+  const [heroInView, setHeroInView] = useState(true);
+
+  useEffect(() => {
+    const hero = document.getElementById("hero");
+    if (!hero) {
+      setHeroInView(false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHeroInView(entry.isIntersecting);
+      },
+      {
+        root: null,
+        rootMargin: "-80px 0px 0px 0px",
+        threshold: 0.05,
+      },
+    );
+
+    observer.observe(hero);
+
+    return () => observer.disconnect();
+  }, []);
 
   const navLinks = [
     {
@@ -41,24 +66,31 @@ export default function Nav() {
           : "sticky top-0 left-0 w-full z-50"
       }`}
     >
-      <div className="max-w-[95rem] mx-auto px-4 md:px-8 pt-4">
+      <div className="max-w-[95rem] mx-auto px-3 sm:px-4 md:px-8 pt-3 md:pt-4">
         {/* NAV CONTAINER */}
         <div
-          className="
+          className={`
             relative
             flex
+            flex-wrap
             items-center
             justify-between
+            gap-3
             rounded-2xl
             border
-            border-white/10
-            bg-black/30
-            px-5
-            py-4
+            px-4
+            py-3
+            md:px-5
+            md:py-4
             backdrop-blur-2xl
             shadow-[0_8px_40px_rgba(0,0,0,0.35)]
             overflow-hidden
-          "
+            ${
+              heroInView
+                ? "border-white/10 bg-black/20"
+                : "border-green-400/20 from-green-950 to-black bg-gradient-to-b text-gray-200" 
+            }
+          `}
         >
           {/* Ambient glow */}
           <div className="absolute inset-0 bg-gradient-to-r from-green-400/[0.08] via-transparent to-green-400/[0.05]" />
@@ -78,7 +110,7 @@ export default function Nav() {
               group
             "
           >
-            <div
+            {/* <div
               className="
                 flex
                 h-10
@@ -97,7 +129,7 @@ export default function Nav() {
               "
             >
               <Building2Icon className="h-5 w-5 text-green-400 group-hover:text-black transition-colors duration-500" />
-            </div>
+            </div> */}
 
             <div className="flex flex-col gap-1.5 leading-none">
               <span
@@ -111,7 +143,7 @@ export default function Nav() {
                 CREED
               </span>
 
-              <span className="text-[10px] uppercase tracking-[0.25em] text-white/40">
+              <span className="text-[8px] uppercase tracking-[0.25em] text-white/40">
                 Student Journal
               </span>
             </div>
@@ -124,8 +156,7 @@ export default function Nav() {
               md:flex
               items-center
               gap-2
-              
-              p-2
+              p-1
             "
           >
             {navLinks.map((navLink, id) => {
@@ -138,8 +169,9 @@ export default function Nav() {
                     scroll={true}
                     className={`
                       relative
-                      px-5
+                      px-3
                       py-2
+                      md:px-5
                       rounded-md
                       text-sm
                       font-medium
@@ -148,7 +180,7 @@ export default function Nav() {
                       duration-300
                       ${
                         active
-                          ? "bg-green-400 text-black "
+                          ? "text-white"
                           : "text-white/70 hover:text-white hover:bg-white/[0.05]"
                       }
                     `}
@@ -204,7 +236,8 @@ export default function Nav() {
               <SheetContent
                 side="left"
                 className="
-                  w-[300px]
+                  w-[calc(100vw-2rem)]
+                  max-w-[300px]
                   border-r
                   border-white/10
                   bg-[#050505]/95
@@ -302,14 +335,11 @@ export default function Nav() {
                   })}
 
                   {/* Auth */}
-                  <div className="mt-6 border-t border-white/10 pt-6">
+                  <div className="">
                     <div
                       className="
-                        rounded-2xl
-                        border
                         border-green-400/10
                         bg-green-400/5
-                        p-2
                       "
                     >
                       <AuthBtn />

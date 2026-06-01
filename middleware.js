@@ -3,8 +3,10 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export default async function middleware(request) {
-  const cookieStore = await cookies();
-  const jwtToken = cookieStore.get("firebaseAuthToken")?.value;
+  // const cookieStore = await cookies();
+  // const jwtToken = cookieStore.get("firebaseAuthToken")?.value;
+
+  const jwtToken =request.cookies.get("firebaseAuthToken")?.value;
   const url = request.nextUrl;
 
   const isAuthPage=url.pathname.startsWith("/login")||url.pathname.startsWith("/register")

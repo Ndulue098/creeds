@@ -1,19 +1,24 @@
-import "server-only"
-import { auth, firestore } from "@/firebase/Server"
-import { cookies } from "next/headers"
- 
+import "server-only";
+import { auth, firestore } from "@/firebase/Server";
+import { cookies } from "next/headers";
+
 export default async function getBookMarks() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get("firebaseAuthToken")?.value;
 
   if (!token) return {};
 
   try {
-    const verifiedIdToken = await auth.verifyIdToken(token);
-    const snapShot = await firestore.collection("bookmarked").doc(verifiedIdToken.uid).get();
-    return snapShot.data() || {};
+    const { uid } = await auth.verifyIdToken(token);
+
+    const doc = await firestore
+      .collection("bookmarked")
+      .doc(uid)
+      .get();
+
+    return doc.data() ?? {};
   } catch (error) {
-    console.error("Error verifying token or fetching bookmarks:", error);
+    console.error(error);
     return {};
   }
 }
@@ -22,25 +27,33 @@ export async function getBookMarkById(postId) {
   const cookieStore = await cookies();
   const token = cookieStore.get("firebaseAuthToken")?.value;
 
-  if (!token) return {};
+  if (!token) {
+    return {
+      postId,
+      isBookmarked: false,
+    };
+  }
 
   try {
-    const verifiedIdToken = await auth.verifyIdToken(token);
-    const userDoc = await firestore
+    const { uid } = await auth.verifyIdToken(token);
+
+    const doc = await firestore
       .collection("bookmarked")
-      .doc(verifiedIdToken.uid)
+      .doc(uid)
       .get();
 
-    if (!userDoc.exists) {
-      return { error: "No bookmarks found for this user" };
-    }
+    const bookmarks = doc.data() ?? {};
 
-    const bookmarks = userDoc.data();
-    const isBookmarked = bookmarks?.[postId] || false;
-
-    return { postId, isBookmarked };
+    return {
+      postId,
+      isBookmarked: Boolean(bookmarks[postId]),
+    };
   } catch (error) {
-    console.error("Error verifying token or fetching bookmark:", error);
-    return {};
+    console.error(error);
+
+    return {
+      postId,
+      isBookmarked: false,
+    };
   }
 }

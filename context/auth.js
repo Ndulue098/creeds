@@ -12,57 +12,81 @@ import { useRouter } from "next/navigation";
 const AuthContext = createContext(null);
 
 function AuthProviderContext({ children }) {
-  const [currentUser, setCurrrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
   const [customClaims, setCustomClaims] = useState(null);
+  const [authLoading, setAuthLoading] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [logoutLoading, setLogoutLoading] = useState(false);
+
   const router = useRouter();
- 
+
   useEffect(() => {
-  const unsubscribe = auth.onIdTokenChanged(async (user) => {
-    if (!user) {
-      setCurrrentUser(null);
-      setCustomClaims(null);
-      await removeToken();
-      return;
-    }
+    const unsubscribe = auth.onIdTokenChanged(async (user) => {
+      try {
+        if (!user) {
+          setCurrentUser(null);
+          setCustomClaims(null);
+          await removeToken();
+          return;
+        }
 
-    // Fetch the latest token (Firebase auto refreshes if expired)
-    const token = await user.getIdToken();  
-    const {newClaimAdded}=await setToken({ token });
-    if (newClaimAdded){
-      await user.getIdToken(true)
-    }
-    const tokenResult = await user.getIdTokenResult();
-    const claims = tokenResult.claims;
+        const token = await user.getIdToken();
 
-    setCurrrentUser(user);
-    setCustomClaims(claims ?? null); 
+        const { newClaimAdded } = (await setToken({ token })) || {};
 
-    // Send token to server to sync cookies
-  });
+        if (newClaimAdded) {
+          await user.getIdToken(true);
+        }
 
-  return () => unsubscribe();
-}, []);
+        const tokenResult = await user.getIdTokenResult();
+
+        setCurrentUser(user);
+        setCustomClaims(tokenResult.claims ?? null);
+      } finally {
+        setAuthLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   // signout
   async function logOut() {
-    await auth.signOut();
+    try {
+      setLogoutLoading(true);
+
+      await auth.signOut();
+    } finally {
+      setLogoutLoading(false);
+    }
   }
 
   //login
   async function loginwithGoogle() {
     const provider = new GoogleAuthProvider();
+
     try {
+      setLoginLoading(true);
+
       await signInWithPopup(auth, provider);
-      // router.push("/")
-    } catch (err) {
-      console.log("Google login failed", err);
+    } finally {
+      setLoginLoading(false);
     }
   }
 
   // login with email
+  // async function loginWithEmail(email, password) {
+  //   await signInWithEmailAndPassword(auth, email, password);
+  // }
+
   async function loginWithEmail(email, password) {
-    await signInWithEmailAndPassword(auth, email, password);
-    //   router.push("/")
+    try {
+      setLoginLoading(true);
+
+      await signInWithEmailAndPassword(auth, email, password);
+    } finally {
+      setLoginLoading(false);
+    }
   }
 
   return (
@@ -73,6 +97,9 @@ function AuthProviderContext({ children }) {
         loginWithEmail,
         logOut,
         customClaims,
+        authLoading,
+        loginLoading,
+        logoutLoading,
       }}
     >
       {children}
@@ -89,4 +116,3 @@ function useAuthContext() {
 }
 
 export { useAuthContext, AuthProviderContext };
- 

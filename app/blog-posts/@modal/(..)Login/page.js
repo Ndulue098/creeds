@@ -30,11 +30,16 @@ export default function LoginWithModal() {
         <div>
           <Login
             link={"/blog-post"}
-            onSucces={async () => {
+            onSuccess={async () => {
               await LoginValidate();
+
               router.back();
+
+              setTimeout(() => {
+                router.refresh();
+              }, 100);
             }}
-          /> 
+          />
         </div>
         <DialogFooter className="block">
           Don&apos;t have an account?

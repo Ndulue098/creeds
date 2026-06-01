@@ -37,7 +37,10 @@ const IMAGE_URL =
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-black text-white">
+    <section
+      id="hero"
+      className="relative min-h-screen overflow-hidden bg-black text-white"
+    >
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
@@ -233,4 +236,4 @@ export default function Hero() {
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent" />
     </section>
   );
-}  
+}

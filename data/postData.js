@@ -5,7 +5,9 @@ import { getTotalPage } from "./getTotalPage";
 
 export async function getPosts(option) {
   const { pagination, filter, sort = "desc" } = option || {};
-  const { page, pageSize = 5 } = pagination || {};
+  const { page=1, pageSize = 5 } = pagination || {};
+
+
   const { status } = filter || {};
 
   // let snapShot = firestore.collection("posts").orderBy("createdAt", "desc");
@@ -115,7 +117,7 @@ export async function getPostByIds(postIds) {
   return propertyData;
 }
 
-export async function getCommets(postId) {
+export async function getCommets(postId) { 
   const commentsRef = await firestore
     .collection("posts")
     .doc(postId)

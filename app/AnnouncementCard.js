@@ -23,18 +23,21 @@ export default function AnnouncementCard({ top, val, topAnnounce }) {
       {/* {rest.map((val, i) => ( */}
       <div
         onClick={top}
+        key={topAnnounce.id}
         className={cn(
           "flex items-center w-full flex-row-reverse border-[1px] hover:border-green-400 overflow-hidden rounded-md ",
           active ? "border-green-600" : "bg-white"
         )}
       >
         <Image
+          key={topAnnounce.image}
           width={100}
           height={100}
           alt={val.title}
           src={val.image}
           className="w-24 h-24 object-cover"
         />
+
         <div className="p-3 h-full flex-1 ">
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-base font-semibold text-gray-800 truncate">
@@ -46,6 +49,7 @@ export default function AnnouncementCard({ top, val, topAnnounce }) {
             {val.message.slice(0, 80)}...
           </p>
         </div>
+
       </div>
     </>
   );

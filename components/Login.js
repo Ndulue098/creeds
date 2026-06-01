@@ -31,7 +31,7 @@ export default function Login({onSuccess,link}) {
     try {
       await authContext.loginWithEmail(data.email, data.password);
        onSuccess?.()
-    } catch (err) {
+    } catch (err) { 
       toast.error("Error!", {
         description:
           err.code === "auth/invalid-credential"

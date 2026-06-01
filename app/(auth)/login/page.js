@@ -69,41 +69,4 @@ export default function page() {
   );
 }
 
-// export default function page() {
-//   return (
-//     <Card className="">
-//       <CardHeader>
-//         <CardTitle>login</CardTitle>
-//       </CardHeader>
 
-//       <CardContent className="grid grid-cols-[55fr_45fr] gap-6 rounded-md overflow-hidden w-full">
-//         <LoginForm />
-//         {/* <ContinueWithGoogleBtn /> */}
-//         <CardDescription className="relative  rounded-md overflow-hidden">
-//           <Image
-//             src={formSvg}
-//             alt="form illustration"
-//             fill
-//             className="object-cover object-center brightness-105"
-//           />
-
-//           {/* Optional overlay to make it look subtle */}
-//           <div className="absolute inset-0 bg-gradient-to-t from-emerald-800/60 via-emerald-600/30 to-transparent" />
-//           {/* icon */}
-//           <div className="absolute inset-0 flex items-center justify-center">
-//             <div className="bg-white/20 p-4 rounded-full shadow-md">
-//               <HardHatIcon className="w-10 h-10 " />
-//             </div>
-//           </div>
-//         </CardDescription>
-//       </CardContent>
-
-//       <CardFooter className="flex items-center justify-center ">
-//         Don&apos;t have an account?
-//         <Link href="/register" className=" underline pl-2">
-//           Register here.
-//         </Link>
-//       </CardFooter>
-//     </Card>
-//   );
-// }
