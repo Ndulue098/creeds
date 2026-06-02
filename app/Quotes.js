@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { QuoteIcon } from "lucide-react";
@@ -11,22 +12,21 @@ export default function Quote({
     "We build more than structures—we build communities.",
     "Brick by brick, we build trust.",
   ],
-  typingSpeed = 90, // ms per char while typing
-  deletingSpeed = 40, // ms per char while deleting
-  pauseAfterTyping = 1400, // ms pause after full sentence
-  tick = 50, // interval tick in ms (should divide speeds)
+  typingSpeed = 90,
+  deletingSpeed = 40,
+  pauseAfterTyping = 1400,
+  tick = 50,
 }) {
-  const [index, setIndex] = useState(0); // which quote in array
-  const [text, setText] = useState(""); // currently displayed substring
+  const [index, setIndex] = useState(0);
+  const [text, setText] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
 
-  // refs to hold mutable values used by the interval (avoid re-subscribing)
-  const phaseRef = useRef("typing"); // "typing" | "pause" | "deleting"
-  const charIndexRef = useRef(0); // how many chars currently shown
-  const pauseRef = useRef(0); // ms counted during pause
+  const phaseRef = useRef("typing");
+  const charIndexRef = useRef(0);
+  const pauseRef = useRef(0);
 
-  // helper to clear and restart text when quotes prop changes (optional)
   const quotesRef = useRef(quotes);
+
   useEffect(() => {
     quotesRef.current = quotes;
   }, [quotes]);
@@ -39,42 +39,40 @@ export default function Quote({
       const phase = phaseRef.current;
 
       if (phase === "typing") {
-        // accumulate time until typingSpeed reached (tick may be smaller)
-        // we'll use charIndexRef increments controlled by accumulated ticks
-        // Instead of accumulating ms, we update charIndex when enough ticks pass
-        // Use a small counter stored in pauseRef to measure ticks for typing
         pauseRef.current += tick;
+
         if (pauseRef.current >= typingSpeed) {
           pauseRef.current = 0;
-          // add next character
+
           if (charIndexRef.current < currentQuote.length) {
             charIndexRef.current += 1;
             setText(currentQuote.slice(0, charIndexRef.current));
           }
-          // if finished typing
+
           if (charIndexRef.current >= currentQuote.length) {
             phaseRef.current = "pause";
             pauseRef.current = 0;
           }
         }
       } else if (phase === "pause") {
-        // accumulate ms until pauseAfterTyping then go to deleting
         pauseRef.current += tick;
+
         if (pauseRef.current >= pauseAfterTyping) {
           pauseRef.current = 0;
           phaseRef.current = "deleting";
         }
       } else if (phase === "deleting") {
         pauseRef.current += tick;
+
         if (pauseRef.current >= deletingSpeed) {
           pauseRef.current = 0;
+
           if (charIndexRef.current > 0) {
             charIndexRef.current -= 1;
             setText(currentQuote.slice(0, charIndexRef.current));
           }
 
           if (charIndexRef.current === 0) {
-            // move to next quote
             phaseRef.current = "typing";
             setIndex((prev) => (prev + 1) % currentQuotes.length);
           }
@@ -85,67 +83,121 @@ export default function Quote({
     return () => clearInterval(interval);
   }, [index, typingSpeed, deletingSpeed, pauseAfterTyping, tick]);
 
-  // blinking cursor interval (separate)
   useEffect(() => {
-    const blink = setInterval(() => setCursorVisible((v) => !v), 500);
+    const blink = setInterval(() => {
+      setCursorVisible((v) => !v);
+    }, 500);
+
     return () => clearInterval(blink);
   }, []);
 
-  // When the index changes (we advanced to next quote), reset charIndexRef
   useEffect(() => {
-    const currentQuote = quotesRef.current[index] ?? "";
     charIndexRef.current = 0;
     pauseRef.current = 0;
     phaseRef.current = "typing";
-    setText(""); // start fresh for the new quote
-    // no cleanup needed here
+    setText("");
   }, [index]);
-  // transform skew-2
+
   return (
-    <section className="relative bg-gradient-to-r max-w-5xl mx-auto lg:rounded-lg transform transition-all duration-500  from-green-950 to-black  my-24 text-center lg:py-14 py-12 lg:px-6 px-4 text-gray-200 overflow-hidden
-      
-    ">
-      {/* Brick pattern overlay */}
-      {/* <div className="absolute inset-0 opacity-10 bg-[linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:60px_30px]" /> */}
+    <section className="relative my-20 lg:my-28 px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{
+          duration: 0.8,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="
+          relative
+          max-w-6xl
+          mx-auto
+          overflow-hidden
+          rounded-md
+          border
+          border-green-400/50
+          bg-gradient-to-br
+          from-[#f7faf7]
+          via-white
+          to-[#eef5ef]
+          p-6
+          sm:p-8
+          lg:p-14
+          shadow-[0_20px_80px_rgba(0,0,0,0.04)]
+        "
+      >
+        {/* Decorative quote */}
+        <QuoteIcon
+          strokeWidth={1}
+          className="
+            absolute
+            right-6
+            top-6
+            h-24
+            w-24
+            text-green-100
+            lg:right-10
+            lg:top-10
+            lg:h-36
+            lg:w-36
+          "
+        />
 
-      <div className="relative max-w-5xl mx-auto min-h-[6rem] flex flex-col   h-full rounded-md text-start">
-        {/* Side accent bar */}
-        {/* <div className="w-1.5 h-20 bg-green-500 mb-5 rounded-full"></div> */}
+        {/* Accent line */}
+        <div className="mb-8 h-px w-20 bg-green-600" />
 
-        <div className="flex items-center gap-3 w-full mb-2">
-          <QuoteIcon
-            size={48}
-            strokeWidth={1}
-            className="text-green-600 mb-3"
-          />
-
-          <motion.h2
-            className="text-3xl lg:text-4xl leading-[1] font-semibold  text-gray-100"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45 }}
+        {/* Fixed-height content area */}
+        <div className="min-h-[180px] lg:min-h-[220px] flex items-center">
+          <h2
+            className="
+              relative
+              z-10
+              max-w-4xl
+              text-left
+              text-3xl
+              sm:text-4xl
+              lg:text-5xl
+              xl:text-6xl
+              font-serif
+              leading-[1.08]
+              tracking-[-0.04em]
+              text-gray-900
+            "
           >
             {text}
+
             <motion.span
               aria-hidden
-              className="ml-1 text-green-400"
-              animate={{ opacity: cursorVisible ? 1 : 0 }}
-              transition={{ duration: 0.12 }}
+              animate={{
+                opacity: cursorVisible ? 1 : 0,
+              }}
+              transition={{
+                duration: 0.1,
+              }}
+              className="ml-1 text-green-600"
             >
-              |  
+              ▌
             </motion.span>
-          </motion.h2> 
+          </h2>
         </div>
 
-        <motion.p
-          className="mt-auto text-sm text-green-300"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-        >
-          — THE CREEDS
-        </motion.p>
-      </div>
+        {/* Footer */}
+        <div className="mt-4 flex items-center gap-4">
+          <div className="h-px w-10 bg-green-600/40" />
+
+          <p
+            className="
+              text-[11px]
+              font-medium
+              uppercase
+              tracking-[0.35em]
+              text-green-800
+            "
+          >
+            THE CREEDS
+          </p>
+        </div>
+      </motion.div>
     </section>
   );
 }

@@ -1,27 +1,22 @@
 "use client";
 
-import { Building2Icon, Menu } from "lucide-react";
 import Link from "next/link";
-import AuthBtn from "./AuthBtn";
+import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-
-import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+import AuthBtn from "./AuthBtn";
 
 export default function Nav() {
   const pathname = usePathname();
+
   const [heroInView, setHeroInView] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const hero = document.getElementById("hero");
+
     if (!hero) {
       setHeroInView(false);
       return;
@@ -32,10 +27,9 @@ export default function Nav() {
         setHeroInView(entry.isIntersecting);
       },
       {
-        root: null,
         rootMargin: "-80px 0px 0px 0px",
         threshold: 0.05,
-      },
+      }
     );
 
     observer.observe(hero);
@@ -58,299 +52,236 @@ export default function Nav() {
     },
   ];
 
+  const mobileContainer = {
+    hidden: {
+      opacity: 0,
+      x: "-100%",
+    },
+    show: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.35,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.08,
+      },
+    },
+    exit: {
+      opacity: 0,
+      x: "-100%",
+      transition: {
+        duration: 0.25,
+      },
+    },
+  };
+
+  const mobileItem = {
+    hidden: {
+      opacity: 0,
+      y: 15,
+    },
+    show: {
+      opacity: 1,
+      y: 0,
+    },
+  };
+
   return (
-    <nav
-      className={`${
-        pathname === "/"
-          ? "fixed top-0 left-0 w-full z-50"
-          : "sticky top-0 left-0 w-full z-50"
-      }`}
-    >
-      <div className="max-w-[95rem] mx-auto px-3 sm:px-4 md:px-8 pt-3 md:pt-4">
-        {/* NAV CONTAINER */}
+    <>
+      <nav
+        className={`${
+          pathname === "/"
+            ? "fixed top-0 left-0 w-full z-20"
+            : "sticky top-0 left-0 w-full z-20"
+        }`}
+      >
         <div
           className={`
-            relative
-            flex
-            flex-wrap
-            items-center
-            justify-between
-            gap-3
-            rounded-2xl
-            border
-            px-4
-            py-3
-            md:px-5
-            md:py-4
-            backdrop-blur-2xl
-            shadow-[0_8px_40px_rgba(0,0,0,0.35)]
-            overflow-hidden
+            transition-all
+            duration-500
             ${
               heroInView
-                ? "border-white/10 bg-black/20"
-                : "border-green-400/20 from-green-950 to-black bg-gradient-to-b text-gray-200" 
+                ? "border-b-2 border-green-400/40 bg-black/70"
+                : "bg-black/95 backdrop-blur-sm border-green-400/40"
             }
+            border-b
           `}
         >
-          {/* Ambient glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-green-400/[0.08] via-transparent to-green-400/[0.05]" />
-
-          {/* subtle border glow */}
-          <div className="absolute inset-0 rounded-2xl border border-green-400/10 pointer-events-none" />
-
-          {/* LOGO */}
-          <Link
-            href="/"
-            className="
-              relative
-              z-10
-              flex
-              items-center
-              gap-3
-              group
-            "
-          >
-            {/* <div
-              className="
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-xl
-                border
-                border-green-400/20
-                bg-green-400/10
-                backdrop-blur-xl
-                transition-all
-                duration-500
-                group-hover:bg-green-400
-                group-hover:scale-105
-              "
-            >
-              <Building2Icon className="h-5 w-5 text-green-400 group-hover:text-black transition-colors duration-500" />
-            </div> */}
-
-            <div className="flex flex-col gap-1.5 leading-none">
-              <span
-                className="
-                  text-[0.9rem]
-                  font-semibold
-                  tracking-[0.35em]
-                  text-white
-                "
+          <div className="max-w-[95rem] mx-auto px-6 md:px-10">
+            <div className="h-20 flex items-center justify-between">
+              {/* Logo */}
+              <Link
+                href="/"
+                className="flex flex-col justify-center leading-none"
               >
-                CREED
-              </span>
-
-              <span className="text-[8px] uppercase tracking-[0.25em] text-white/40">
-                Student Journal
-              </span>
-            </div>
-          </Link>
-
-          {/* DESKTOP LINKS */}
-          <ul
-            className="
-              hidden
-              md:flex
-              items-center
-              gap-2
-              p-1
-            "
-          >
-            {navLinks.map((navLink, id) => {
-              const active = pathname === navLink.link;
-
-              return (
-                <li key={id}>
-                  <Link
-                    href={navLink.link}
-                    scroll={true}
-                    className={`
-                      relative
-                      px-3
-                      py-2
-                      md:px-5
-                      rounded-md
-                      text-sm
-                      font-medium
-                      tracking-wide
-                      transition-all
-                      duration-300
-                      ${
-                        active
-                          ? "text-white"
-                          : "text-white/70 hover:text-white hover:bg-white/[0.05]"
-                      }
-                    `}
-                  >
-                    {navLink.name}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-
-          {/* DESKTOP BUTTON */}
-          <div className="hidden md:block relative z-10">
-            <div
-              className="
-                rounded-md
-                border
-                border-green-400/20
-                bg-green-400/10
-                p-1
-                px-2.5
-                backdrop-blur-xl
-              "
-            >
-              <AuthBtn />
-            </div>
-          </div>
-
-          {/* MOBILE MENU */}
-          <div className="md:hidden relative z-10">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
+                <span
                   className="
-                    rounded-xl
-                    border
-                    border-white/10
-                    bg-white/[0.04]
+                    text-[0.95rem]
+                    font-semibold
+                    tracking-[0.4em]
+                    uppercase
                     text-white
-                    backdrop-blur-xl
-                    hover:bg-green-400
-                    hover:text-black
-                    transition-all
-                    duration-300
                   "
                 >
-                  <Menu className="w-5 h-5" />
-                </Button>
-              </SheetTrigger>
+                  CREED
+                </span>
 
-              <SheetContent
-                side="left"
-                className="
-                  w-[calc(100vw-2rem)]
-                  max-w-[300px]
-                  border-r
-                  border-white/10
-                  bg-[#050505]/95
-                  backdrop-blur-3xl
-                  text-white
-                  p-0
-                "
-              >
-                {/* Background glow */}
-                <div className="absolute inset-0 bg-gradient-to-b from-green-400/[0.08] via-transparent to-transparent" />
+                <span
+                  className="
+                    mt-1
+                    text-[9px]
+                    uppercase
+                    tracking-[0.3em]
+                    text-white/40
+                  "
+                >
+                  Student Journal
+                </span>
+              </Link>
 
-                {/* Header */}
-                <SheetHeader className="relative z-10 border-b border-white/10 p-6">
-                  <SheetTitle
-                    className="
-                      flex
-                      items-center
-                      gap-3
-                      text-white
-                    "
-                  >
-                    <div
-                      className="
-                        flex
-                        h-11
-                        w-11
-                        items-center
-                        justify-center
-                        rounded-xl
-                        bg-green-400
-                      "
-                    >
-                      <Building2Icon className="h-5 w-5 text-black" />
-                    </div>
+              {/* Desktop Nav */}
+              <ul className="hidden md:flex items-center gap-10">
+                {navLinks.map((link) => {
+                  const active = pathname === link.link;
 
-                    <div className="text-left">
-                      <p className="text-sm tracking-[0.35em] font-semibold">
-                        CREED
-                      </p>
-
-                      <p className="text-[10px] uppercase tracking-[0.25em] text-white/40 mt-1">
-                        Student Journal
-                      </p>
-                    </div>
-                  </SheetTitle>
-                </SheetHeader>
-
-                {/* Links */}
-                <div className="relative z-10 flex flex-col px-4 py-6">
-                  {navLinks.map((navLink, id) => {
-                    const active = pathname === navLink.link;
-
-                    return (
+                  return (
+                    <li key={link.name}>
                       <Link
-                        key={id}
-                        href={navLink.link}
+                        href={link.link}
                         className={`
-                          group
-                          flex
-                          items-center
-                          justify-between
-                          rounded-xl
-                          px-4
-                          py-4
                           text-sm
                           tracking-wide
-                          transition-all
+                          transition-colors
                           duration-300
-                          mb-2
                           ${
                             active
-                              ? "bg-green-400 text-black"
-                              : "text-white/70 hover:bg-white/[0.05] hover:text-white"
+                              ? "text-green-400"
+                              : "text-white/60 hover:text-white"
                           }
                         `}
                       >
-                        {navLink.name}
-
-                        <span
-                          className={`
-                            h-2
-                            w-2
-                            rounded-full
-                            transition-all
-                            duration-300
-                            ${
-                              active
-                                ? "bg-black"
-                                : "bg-white/20 group-hover:bg-green-400"
-                            }
-                          `}
-                        />
+                        {link.name}
                       </Link>
-                    );
-                  })}
+                    </li>
+                  );
+                })}
+              </ul>
 
-                  {/* Auth */}
-                  <div className="">
-                    <div
-                      className="
-                        border-green-400/10
-                        bg-green-400/5
-                      "
-                    >
-                      <AuthBtn />
-                    </div>
-                  </div>
+              {/* Desktop Auth */}
+              <div className="hidden md:flex items-center">
+                <div className="border-l border-white/10 pl-6">
+                  <AuthBtn />
                 </div>
-              </SheetContent>
-            </Sheet>
+              </div>
+
+              {/* Mobile Button */}
+              <button
+                onClick={() => setMobileOpen(true)}
+                className="
+                  md:hidden
+                  text-white
+                "
+              >
+                <Menu className="h-6 w-6" />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* MOBILE MENU */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileOpen(false)}
+              className="
+                fixed
+                inset-0
+                z-40
+                bg-black/70
+                backdrop-blur-sm
+              "
+            />
+
+            <motion.div
+              variants={mobileContainer}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+              className="
+                fixed
+                top-0
+                left-0
+                z-50
+                h-screen
+                w-[85%]
+                max-w-[320px]
+                bg-black
+                border-r
+                border-white/10
+                px-6
+                py-8
+              "
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-white tracking-[0.4em] text-sm font-semibold">
+                    CREED
+                  </p>
+
+                  <p className="mt-2 text-[9px] uppercase tracking-[0.3em] text-white/40">
+                    Student Journal
+                  </p>
+                </div>
+
+                <button onClick={() => setMobileOpen(false)}>
+                  <X className="h-5 w-5 text-white" />
+                </button>
+              </div>
+
+              <div className="mt-10 border-t border-white/10 pt-8">
+                <motion.div
+                  variants={mobileContainer}
+                  className="flex flex-col"
+                >
+                  {navLinks.map((link) => (
+                    <motion.div
+                      key={link.name}
+                      variants={mobileItem}
+                    >
+                      <Link
+                        href={link.link}
+                        onClick={() => setMobileOpen(false)}
+                        className="
+                          block
+                          py-4
+                          text-lg
+                          text-white/70
+                          hover:text-green-400
+                          transition-colors
+                        "
+                      >
+                        {link.name}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                <motion.div
+                  variants={mobileItem}
+                  className="mt-10 border-t border-white/10 pt-8"
+                >
+                  <AuthBtn />
+                </motion.div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
