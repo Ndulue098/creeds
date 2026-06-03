@@ -9,11 +9,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import LoginValidate from "./action";
+import { useAuthContext } from "@/context/auth";
+import { addMarked } from "../../action";
 
 export default function LoginWithModal() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const authContext = useAuthContext();
   function openChange() {
     // navigate the user back to previous page:
     router.back();
@@ -33,11 +37,27 @@ export default function LoginWithModal() {
             onSuccess={async () => {
               await LoginValidate();
 
+              const post = searchParams?.get("post");
+
+              if (post) {
+                try {
+                  const user = authContext?.currentUser;
+
+                  if (user && post) {
+                    const token = await user.getIdToken(true);
+                    await addMarked(post, token);
+                  }
+                } catch (error) {
+                  console.error("Auto-add bookmark failed:", error);
+                }
+              }
+
+              // Navigate back to previous page, then refresh data
               router.back();
 
               setTimeout(() => {
                 router.refresh();
-              }, 100);
+              }, 200);
             }}
           />
         </div>

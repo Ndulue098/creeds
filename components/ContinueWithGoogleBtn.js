@@ -1,30 +1,36 @@
-"use client"
-import { useAuthContext } from "@/context/auth"
-import { useRouter } from "next/navigation"
-import {Button} from "@/components/ui/button"
+"use client";
+import { useAuthContext } from "@/context/auth";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
-export default function ContinueWithGoogleBtn({link}){
+export default function ContinueWithGoogleBtn({ link }) {
+  const authContext = useAuthContext();
+  const router = useRouter();
 
-    const authContext=useAuthContext()
-    const router=useRouter()
+  async function handleLogin() {
+    try {
+      await authContext?.loginwithGoogle();
+    //   if (link) {
+    //     router.back();
+    //     router.refresh();
+    //   } else {
+    //     router.push("/");
+    //   }
+      if (window.history.length > 1) {
+        router.back();
+      } else {
+        router.push("/");
+      }
+    } catch (err) {}
+  }
 
-    async function handleLogin(){
-        try{
-            await authContext?.loginwithGoogle()
-            if(link){
-                router.back()
-                router.refresh()
-            }else{
-                router.push("/")
-            }
-        }catch(err){
-
-        }
-    }
-
-    return <Button onClick={handleLogin} variant="outline" className="w-full cursor-pointer">
-            Continue With Google 
-        </Button>
+  return (
+    <Button
+      onClick={handleLogin}
+      variant="outline"
+      className="w-full cursor-pointer"
+    >
+      Continue With Google
+    </Button>
+  );
 }
- 
- 
