@@ -5,6 +5,8 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
+  setPersistence,
+  browserLocalPersistence,
 } from "firebase/auth";
 import { removeToken, setToken } from "./action";
 import { useRouter } from "next/navigation";
@@ -21,6 +23,16 @@ function AuthProviderContext({ children }) {
   const router = useRouter();
 
   useEffect(() => {
+    const initPersistence = async () => {
+      try {
+        await setPersistence(auth, browserLocalPersistence);
+      } catch (err) {
+        console.warn("Failed to set auth persistence:", err);
+      }
+    };
+
+    initPersistence();
+
     const unsubscribe = auth.onIdTokenChanged(async (user) => {
       try {
         if (!user) {
@@ -67,8 +79,10 @@ function AuthProviderContext({ children }) {
 
     try {
       setLoginLoading(true);
-
       await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error("Google login failed", error);
+      throw error;
     } finally {
       setLoginLoading(false);
     }
@@ -82,8 +96,10 @@ function AuthProviderContext({ children }) {
   async function loginWithEmail(email, password) {
     try {
       setLoginLoading(true);
-
       await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error("Email login failed", error);
+      throw error;
     } finally {
       setLoginLoading(false);
     }

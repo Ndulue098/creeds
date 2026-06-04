@@ -87,8 +87,11 @@ export default async function page({ params }) {
           {/* RIGHT ACTIONS */}
           <div className="flex items-center gap-5 text-gray-700">
             <div className="flex items-center gap-2 hover:text-red-500 transition">
-              <ToggleLike postId={postId} isLiked={like?.liked} />
-              <small className="text-sm">{likeNum}</small>
+              <ToggleLike
+                postId={postId}
+                isLiked={like?.liked}
+                initialCount={likeNum}
+              />
             </div>
 
             <Link href="#comment" className="hover:text-blue-500 transition">

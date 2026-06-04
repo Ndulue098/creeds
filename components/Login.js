@@ -30,13 +30,17 @@ export default function Login({onSuccess,link}) {
   async function handleSubmit(data) {
     try {
       await authContext.loginWithEmail(data.email, data.password);
-       onSuccess?.()
-    } catch (err) { 
+      onSuccess?.();
+    } catch (err) {
+      console.error("Login failed", err);
+      const code = err?.code;
       toast.error("Error!", {
         description:
-          err.code === "auth/invalid-credential"
-            ? "incorrect credentials"
-            : "error occured",
+          code === "auth/invalid-credential" || code === "auth/wrong-password"
+            ? "Incorrect credentials"
+            : code === "auth/user-not-found"
+            ? "No user found with that email"
+            : "Login failed. Please try again.",
       });
     }
   }
